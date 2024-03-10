@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/restaurant")
+@RequestMapping("/api/v1/restaurants")
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
@@ -35,7 +35,7 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<RestaurantDTO>> createRestaurant(@RequestBody RestaurantSaveRequest request) {
+    public ResponseEntity<RestResponse<RestaurantDTO>> createRestaurant(@Valid @RequestBody RestaurantSaveRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(RestResponse.of(restaurantService.saveRestaurant(request)));
     }

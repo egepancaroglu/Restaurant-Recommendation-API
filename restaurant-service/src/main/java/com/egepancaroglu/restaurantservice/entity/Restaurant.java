@@ -34,6 +34,9 @@ public class Restaurant {
     private Double averageScore;
 
     @Field
+    private int reviewCount;
+
+    @Field
     private Status status;
 
     public Restaurant() {
