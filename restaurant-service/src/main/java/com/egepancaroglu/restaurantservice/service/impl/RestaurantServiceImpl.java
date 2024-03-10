@@ -1,5 +1,6 @@
 package com.egepancaroglu.restaurantservice.service.impl;
 
+import com.egepancaroglu.restaurantservice.client.SolrClientService;
 import com.egepancaroglu.restaurantservice.dto.RestaurantDTO;
 import com.egepancaroglu.restaurantservice.entity.Restaurant;
 import com.egepancaroglu.restaurantservice.enums.Status;
@@ -26,6 +27,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
+    private final SolrClientService solrClientService;
 
 
     @Override
@@ -50,6 +52,15 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantDTOList;
 
     }
+
+    @Override
+    public List<RestaurantDTO> getRecommendedRestaurants(String userLocation) {
+
+        List<Restaurant> restaurantList = solrClientService.performSolrQuery(userLocation);
+
+        return restaurantMapper.convertRestaurantsToRestaurantDTOs(restaurantList);
+    }
+
 
     @Override
     public RestaurantDTO saveRestaurant(RestaurantSaveRequest request) {
@@ -88,23 +99,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantMapper.convertRestaurantToRestaurantDTO(restaurant);
 
     }
-
-
-//    @Override
-//    public List<RestaurantDTO> getRecommendedRestaurants(String userLocation) {
-//
-//        List<Restaurant> restaurantList = restaurantRepository.getRecommendedRestaurants(userLocation);
-//        List<RestaurantDTO> restaurantDTOList = new ArrayList<>();
-//
-//        for (Restaurant restaurant : restaurantList) {
-//            RestaurantDTO restaurantDTO = restaurantMapper.convertRestaurantToRestaurantDTO(restaurant);
-//            restaurantDTOList.add(restaurantDTO);
-//        }
-//
-//        return restaurantDTOList;
-//    }
-
-
 
 
 }

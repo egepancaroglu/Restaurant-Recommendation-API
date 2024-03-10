@@ -15,7 +15,7 @@ public interface RestaurantService {
 
     RestaurantDTO saveRestaurant(RestaurantSaveRequest request);
 
-//    List<RestaurantDTO> getRecommendedRestaurants(String userLocation);
+    List<RestaurantDTO> getRecommendedRestaurants(String userLocation);
 
     List<RestaurantDTO> getAllRestaurants();
 
@@ -24,5 +24,6 @@ public interface RestaurantService {
     void deleteRestaurant(String id);
 
     RestaurantDTO activateRestaurant(String id);
+
 
 }

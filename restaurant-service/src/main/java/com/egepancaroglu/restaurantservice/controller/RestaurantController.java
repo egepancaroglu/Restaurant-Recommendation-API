@@ -34,6 +34,11 @@ public class RestaurantController {
         return ResponseEntity.ok(RestResponse.of(restaurantService.getAllRestaurants()));
     }
 
+    @GetMapping("/recommend/{userLocation}")
+    public ResponseEntity<RestResponse<List<RestaurantDTO>>> getRecommendedRestaurantsByUserId(@PathVariable String userLocation) {
+        return ResponseEntity.ok(RestResponse.of(restaurantService.getRecommendedRestaurants(userLocation)));
+    }
+
     @PostMapping
     public ResponseEntity<RestResponse<RestaurantDTO>> createRestaurant(@Valid @RequestBody RestaurantSaveRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -41,7 +46,7 @@ public class RestaurantController {
     }
 
     @PutMapping
-    public ResponseEntity<RestaurantDTO> updateRestaurant(@Valid @RequestBody RestaurantUpdateRequest request){
+    public ResponseEntity<RestaurantDTO> updateRestaurant(@Valid @RequestBody RestaurantUpdateRequest request) {
         return ResponseEntity.ok(restaurantService.updateRestaurant(request));
     }
 
@@ -52,12 +57,9 @@ public class RestaurantController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteRestaurant(@PathVariable String id){
+    public void deleteRestaurant(@PathVariable String id) {
         restaurantService.deleteRestaurant(id);
     }
-
-
-
 
 
 }
