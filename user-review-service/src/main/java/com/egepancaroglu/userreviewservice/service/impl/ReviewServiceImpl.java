@@ -2,7 +2,6 @@ package com.egepancaroglu.userreviewservice.service.impl;
 
 import com.egepancaroglu.userreviewservice.dto.ReviewDTO;
 import com.egepancaroglu.userreviewservice.entity.Review;
-import com.egepancaroglu.userreviewservice.entity.enums.Rate;
 import com.egepancaroglu.userreviewservice.exception.ItemNotFoundException;
 import com.egepancaroglu.userreviewservice.general.ErrorMessages;
 import com.egepancaroglu.userreviewservice.mapper.ReviewMapper;
@@ -65,8 +64,6 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewMapper.convertToReviewDTO(review);
 
     }
-
-
 
     @Override
     public ReviewDTO updateReview(ReviewUpdateRequest request) {

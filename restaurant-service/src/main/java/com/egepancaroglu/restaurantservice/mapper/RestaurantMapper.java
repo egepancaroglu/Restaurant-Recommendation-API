@@ -11,8 +11,6 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-import static com.egepancaroglu.restaurantservice.enums.Status.INACTIVE;
-
 /**
  * @author egepancaroglu
  */
@@ -25,7 +23,7 @@ public interface RestaurantMapper {
 
     RestaurantDTO convertRestaurantToRestaurantDTO(Restaurant restaurant);
 
-    List<RestaurantDTO> convertRestaurantsToRestaurantDTOs(List<RestaurantDTO> restaurantsList);
+    List<RestaurantDTO> convertRestaurantsToRestaurantDTOs(List<Restaurant> restaurantsList);
 
     void updateRestaurantRequestToRestaurant(@MappingTarget Restaurant restaurant, RestaurantUpdateRequest request);
 

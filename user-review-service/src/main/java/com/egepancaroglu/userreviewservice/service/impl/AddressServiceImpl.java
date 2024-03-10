@@ -8,7 +8,6 @@ import com.egepancaroglu.userreviewservice.mapper.AddressMapper;
 import com.egepancaroglu.userreviewservice.repository.AddressRepository;
 import com.egepancaroglu.userreviewservice.request.address.AddressSaveRequest;
 import com.egepancaroglu.userreviewservice.request.address.AddressUpdateRequest;
-import com.egepancaroglu.userreviewservice.response.RestResponse;
 import com.egepancaroglu.userreviewservice.service.AddressService;
 import com.egepancaroglu.userreviewservice.service.UserService;
 import lombok.RequiredArgsConstructor;

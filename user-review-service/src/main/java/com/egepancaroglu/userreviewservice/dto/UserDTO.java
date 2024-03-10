@@ -1,7 +1,5 @@
 package com.egepancaroglu.userreviewservice.dto;
 
-import com.egepancaroglu.userreviewservice.entity.enums.Status;
-
 import java.time.LocalDate;
 
 /**

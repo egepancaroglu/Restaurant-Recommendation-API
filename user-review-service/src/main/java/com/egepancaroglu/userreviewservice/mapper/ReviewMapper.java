@@ -1,16 +1,14 @@
 package com.egepancaroglu.userreviewservice.mapper;
 
 import com.egepancaroglu.userreviewservice.dto.ReviewDTO;
-import com.egepancaroglu.userreviewservice.dto.UserDTO;
 import com.egepancaroglu.userreviewservice.entity.Review;
-import com.egepancaroglu.userreviewservice.entity.User;
 import com.egepancaroglu.userreviewservice.request.review.ReviewSaveRequest;
 import com.egepancaroglu.userreviewservice.request.review.ReviewUpdateRequest;
-import com.egepancaroglu.userreviewservice.request.user.UserUpdateRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
+
 
 /**
  * @author egepancaroglu

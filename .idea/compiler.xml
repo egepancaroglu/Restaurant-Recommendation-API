@@ -9,9 +9,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="restaurant-service" />
         <module name="user-review-service" />
-        <module name="recommendation-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="recommendation-service" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

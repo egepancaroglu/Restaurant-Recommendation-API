@@ -2,14 +2,10 @@ package com.egepancaroglu.userreviewservice.entity;
 
 import com.egepancaroglu.userreviewservice.entity.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
 /**
  * @author egepancaroglu
