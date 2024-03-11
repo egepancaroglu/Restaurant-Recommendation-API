@@ -48,6 +48,19 @@ public class ControllerAdvice {
         return new ResponseEntity<>(restResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleSolrClientExceptions(SolrClientException e, WebRequest request) {
+
+        String message = e.getBaseErrorMessage().getMessage();
+        String description = request.getDescription(false);
+
+        var generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), message, description);
+
+        var restResponse = RestResponse.error(generalErrorMessages);
+
+        return new ResponseEntity<>(restResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public final ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e, WebRequest request) {
 
@@ -58,7 +71,9 @@ public class ControllerAdvice {
         Map<String, String> errorMap = new HashMap<>();
 
         for (FieldError fieldError : fieldErrorList) {
-            errorMap.put(fieldError.getField(), fieldError.getRejectedValue().toString() + " " + fieldError.getDefaultMessage());
+            Object rejectedValue = fieldError.getRejectedValue();
+            String rejectedValueString = (rejectedValue != null) ? rejectedValue.toString() : "null";
+            errorMap.put(fieldError.getField(), rejectedValueString + " " + fieldError.getDefaultMessage());
         }
 
         var validationErrorMessages = new ValidationErrorMessages(LocalDateTime.now(), errorMap, METHOD_ARGUMENT_NOT_VALID.getMessage(), description);
