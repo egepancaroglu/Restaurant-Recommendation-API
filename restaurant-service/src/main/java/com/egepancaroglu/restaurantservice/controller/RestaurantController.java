@@ -34,9 +34,9 @@ public class RestaurantController {
         return ResponseEntity.ok(RestResponse.of(restaurantService.getAllRestaurants()));
     }
 
-    @GetMapping("/recommend/{userLocation}")
-    public ResponseEntity<RestResponse<List<RestaurantDTO>>> getRecommendedRestaurantsByUserId(@PathVariable String userLocation) {
-        return ResponseEntity.ok(RestResponse.of(restaurantService.getRecommendedRestaurants(userLocation)));
+    @GetMapping("/recommend/{userId}")
+    public ResponseEntity<RestResponse<List<RestaurantDTO>>> getRecommendedRestaurantsByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(RestResponse.of(restaurantService.getRecommendedRestaurantsByUserId(userId)));
     }
 
     @PostMapping

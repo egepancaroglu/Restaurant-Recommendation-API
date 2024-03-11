@@ -25,17 +25,18 @@ import java.util.Map;
 public class SolrClientService {
 
     @Value("${solr.client.url}")
-    private static String solrUrl;
+    private String solrUrl;
 
-    public List<Restaurant> performSolrQuery(String location) {
+    public List<Restaurant> performSolrQuery(String userLocation) {
         try (HttpSolrClient solrClient = new HttpSolrClient.Builder(solrUrl).build()) {
 
             final Map<String, String> queryParamMap = new HashMap<>();
+
             queryParamMap.put("q", "*:*");
-            queryParamMap.put("fq", "fq={!geofilt pt=" + location + " sfield=location d=10}");
+            queryParamMap.put("fq", "fq={!geofilt pt=" + userLocation + " sfield=location d=10}");
             queryParamMap.put("start", "0");
             queryParamMap.put("rows", "3");
-            queryParamMap.put("sort", "sum(mul(averageScore,14),mul(sub(10,geodist(" + location + ",location)),3)) desc");
+            queryParamMap.put("sort", "sum(mul(div(averageScore,5),7),mul(div(sub(10,geodist(" + userLocation + ",location)),10),3)) desc");
 
             MapSolrParams queryParams = new MapSolrParams(queryParamMap);
             QueryResponse queryResponse = solrClient.query(queryParams);

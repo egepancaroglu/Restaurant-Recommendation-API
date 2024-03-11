@@ -1,6 +1,8 @@
 package com.egepancaroglu.restaurantservice.service.impl;
 
+import com.egepancaroglu.restaurantservice.client.AddressFeignClient;
 import com.egepancaroglu.restaurantservice.client.SolrClientService;
+import com.egepancaroglu.restaurantservice.dto.AddressDTO;
 import com.egepancaroglu.restaurantservice.dto.RestaurantDTO;
 import com.egepancaroglu.restaurantservice.entity.Restaurant;
 import com.egepancaroglu.restaurantservice.enums.Status;
@@ -10,12 +12,15 @@ import com.egepancaroglu.restaurantservice.mapper.RestaurantMapper;
 import com.egepancaroglu.restaurantservice.repository.RestaurantRepository;
 import com.egepancaroglu.restaurantservice.request.RestaurantSaveRequest;
 import com.egepancaroglu.restaurantservice.request.RestaurantUpdateRequest;
+import com.egepancaroglu.restaurantservice.response.RestResponse;
 import com.egepancaroglu.restaurantservice.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author egepancaroglu
@@ -28,6 +33,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
     private final SolrClientService solrClientService;
+    private final AddressFeignClient addressFeignClient;
 
 
     @Override
@@ -54,11 +60,21 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<RestaurantDTO> getRecommendedRestaurants(String userLocation) {
+    public List<RestaurantDTO> getRecommendedRestaurantsByUserId(Long userId) {
+
+        ResponseEntity<RestResponse<List<AddressDTO>>> addressDTOResponse = addressFeignClient.getAddressesByUserId(userId);
+
+        List<AddressDTO> addressDTOList = Objects.requireNonNull(addressDTOResponse.getBody()).getData();
+        
+        AddressDTO firstAddress = addressDTOList.get(0);
+
+        String userLocation = firstAddress.location();
 
         List<Restaurant> restaurantList = solrClientService.performSolrQuery(userLocation);
 
         return restaurantMapper.convertRestaurantsToRestaurantDTOs(restaurantList);
+
+
     }
 
 

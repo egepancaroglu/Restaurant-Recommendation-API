@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/addresses")
+@RequestMapping("api/v1/addresses")
 public class AddressController {
 
     private final AddressService addressService;
