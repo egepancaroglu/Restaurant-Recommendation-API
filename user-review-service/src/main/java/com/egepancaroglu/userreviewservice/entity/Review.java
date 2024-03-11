@@ -1,6 +1,5 @@
 package com.egepancaroglu.userreviewservice.entity;
 
-import com.egepancaroglu.userreviewservice.entity.enums.Rate;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,10 +24,9 @@ public class Review {
 
     @Column(name = "comment")
     private String comment;
-
-    @Enumerated(EnumType.STRING)
+    
     @Column(name = "rate")
-    private Rate rate;
+    private short rate;
 
     @Column(name = "restaurant_id")
     private Long restaurantId;

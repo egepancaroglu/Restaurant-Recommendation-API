@@ -20,6 +20,7 @@ public interface AddressMapper {
     Address convertToAddress(AddressSaveRequest request);
 
     AddressResponse convertToAddressResponse(Address address);
+
     @Mapping(target = "address.status", constant = "INACTIVE")
     @Mapping(target = "userId", source = "address.user.id")
     AddressDTO convertToAddressDTO(Address address);

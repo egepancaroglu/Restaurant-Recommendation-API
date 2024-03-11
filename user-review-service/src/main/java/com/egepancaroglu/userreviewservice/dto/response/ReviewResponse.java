@@ -3,5 +3,6 @@ package com.egepancaroglu.userreviewservice.dto.response;
 /**
  * @author egepancaroglu
  */
-public class ReviewResponse {
+public record ReviewResponse(String comment,
+                             byte rate) {
 }

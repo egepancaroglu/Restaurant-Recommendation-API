@@ -1,9 +1,6 @@
 package com.egepancaroglu.userreviewservice.request.review;
 
-import com.egepancaroglu.userreviewservice.entity.enums.Rate;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 /**
  * @author egepancaroglu
@@ -15,6 +12,7 @@ public record ReviewUpdateRequest(
         @NotBlank(message = "Comment can't be null or blank !")
         @Size(min = 3, max = 150)
         String comment,
-        @NotBlank(message = "Rate can't be null or blank !")
-        Rate rate) {
+        @Min(value = 1, message = "Rate must be least 1")
+        @Max(value = 5, message = "Rate must be max 5")
+        byte rate) {
 }

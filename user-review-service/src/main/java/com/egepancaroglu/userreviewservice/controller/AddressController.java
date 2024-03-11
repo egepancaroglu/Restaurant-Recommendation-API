@@ -1,6 +1,7 @@
 package com.egepancaroglu.userreviewservice.controller;
 
 import com.egepancaroglu.userreviewservice.dto.AddressDTO;
+import com.egepancaroglu.userreviewservice.dto.response.AddressResponse;
 import com.egepancaroglu.userreviewservice.request.address.AddressSaveRequest;
 import com.egepancaroglu.userreviewservice.request.address.AddressUpdateRequest;
 import com.egepancaroglu.userreviewservice.response.RestResponse;
@@ -34,14 +35,19 @@ public class AddressController {
         return ResponseEntity.ok(RestResponse.of(addressService.getAddressById(id)));
     }
 
+    @GetMapping("/with-userId/{userId}")
+    public ResponseEntity<RestResponse<List<AddressDTO>>> getAddressesByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(RestResponse.of(addressService.getAddressesByUserId(userId)));
+    }
+
     @PostMapping
-    public ResponseEntity<RestResponse<AddressDTO>> createAddress(@Valid @RequestBody AddressSaveRequest request) {
+    public ResponseEntity<RestResponse<AddressResponse>> createAddress(@Valid @RequestBody AddressSaveRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(RestResponse.of(addressService.saveAddress(request)));
     }
 
     @PutMapping
-    public ResponseEntity<AddressDTO> updateAddress(@Valid @RequestBody AddressUpdateRequest request) {
+    public ResponseEntity<AddressResponse> updateAddress(@Valid @RequestBody AddressUpdateRequest request) {
         return ResponseEntity.ok(addressService.updateAddress(request));
     }
 

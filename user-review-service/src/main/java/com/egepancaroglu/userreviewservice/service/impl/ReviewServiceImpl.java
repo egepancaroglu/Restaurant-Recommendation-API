@@ -1,6 +1,7 @@
 package com.egepancaroglu.userreviewservice.service.impl;
 
 import com.egepancaroglu.userreviewservice.dto.ReviewDTO;
+import com.egepancaroglu.userreviewservice.dto.response.ReviewResponse;
 import com.egepancaroglu.userreviewservice.entity.Review;
 import com.egepancaroglu.userreviewservice.exception.ItemNotFoundException;
 import com.egepancaroglu.userreviewservice.general.ErrorMessages;
@@ -53,7 +54,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewDTO saveReview(ReviewSaveRequest request) {
+    public ReviewResponse saveReview(ReviewSaveRequest request) {
 
         Review review = reviewMapper.convertToReview(request);
 
@@ -61,19 +62,19 @@ public class ReviewServiceImpl implements ReviewService {
 
         review = reviewRepository.save(review);
 
-        return reviewMapper.convertToReviewDTO(review);
+        return reviewMapper.convertToReviewResponse(review);
 
     }
 
     @Override
-    public ReviewDTO updateReview(ReviewUpdateRequest request) {
+    public ReviewResponse updateReview(ReviewUpdateRequest request) {
 
         Review review = reviewRepository.findById(request.id()).orElseThrow();
         reviewMapper.updateReviewRequestToUser(review, request);
 
         reviewRepository.save(review);
 
-        return reviewMapper.convertToReviewDTO(review);
+        return reviewMapper.convertToReviewResponse(review);
 
     }
 

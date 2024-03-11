@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public User getUserEntity(Long id){
+    public User getUserEntity(Long id) {
 
         return userRepository.findById(id).orElseThrow();
     }
@@ -85,7 +85,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    //TODO
     @Override
     public UserDTO updateUserFields(UserUpdateRequest request) {
         return null;

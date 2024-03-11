@@ -1,6 +1,7 @@
 package com.egepancaroglu.userreviewservice.controller;
 
 import com.egepancaroglu.userreviewservice.dto.ReviewDTO;
+import com.egepancaroglu.userreviewservice.dto.response.ReviewResponse;
 import com.egepancaroglu.userreviewservice.request.review.ReviewSaveRequest;
 import com.egepancaroglu.userreviewservice.request.review.ReviewUpdateRequest;
 import com.egepancaroglu.userreviewservice.response.RestResponse;
@@ -36,14 +37,14 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<ReviewDTO>> createReview(@Valid @RequestBody ReviewSaveRequest request) {
+    public ResponseEntity<RestResponse<ReviewResponse>> createReview(@Valid @RequestBody ReviewSaveRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(RestResponse.of(reviewService.saveReview(request)));
     }
 
     @PutMapping
     @ResponseStatus(value = HttpStatus.OK)
-    public ReviewDTO updateReview(@Valid @RequestBody ReviewUpdateRequest request) {
+    public ReviewResponse updateReview(@Valid @RequestBody ReviewUpdateRequest request) {
         return reviewService.updateReview(request);
     }
 

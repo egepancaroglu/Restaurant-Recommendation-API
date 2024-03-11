@@ -27,7 +27,7 @@ public class Address {
     private String city;
 
     @Column(name = "state")
-    private Status state;
+    private String state;
 
     @Column(name = "district")
     private String district;
@@ -35,11 +35,12 @@ public class Address {
     @Column(name = "street")
     private String street;
 
-    @Column(name = "latitude")
-    private Double latitude;
+    @Column(name = "location")
+    private String location;
 
-    @Column(name = "longitude")
-    private Double longitude;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status = Status.INACTIVE;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

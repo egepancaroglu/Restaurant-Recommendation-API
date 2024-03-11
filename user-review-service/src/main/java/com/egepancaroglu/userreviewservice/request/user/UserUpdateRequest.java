@@ -1,6 +1,5 @@
 package com.egepancaroglu.userreviewservice.request.user;
 
-import com.egepancaroglu.userreviewservice.entity.enums.Status;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -24,8 +23,6 @@ public record UserUpdateRequest(
         @NotNull
         @Email
         String email,
-        @NotNull
-        Status status,
         @Past
         LocalDate birthDate) {
 }

@@ -1,6 +1,8 @@
 package com.egepancaroglu.userreviewservice.request.address;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author egepancaroglu
@@ -19,14 +21,8 @@ public record AddressSaveRequest(
         @NotBlank(message = "Street can't be null or blank !")
         @Size(min = 2, max = 50)
         String street,
-        @NotNull
-        @DecimalMax(value = "90.000000")
-        @DecimalMin(value = "-90.000000")
-        Double latitude,
-        @NotNull
-        @DecimalMax(value = "90.000000")
-        @DecimalMin(value = "-90.000000")
-        Double longitude,
+        @NotBlank(message = "Location can't be null or blank !")
+        String location,
         @NotNull(message = "User Id can't be null or blank !")
         Long userId) {
 }

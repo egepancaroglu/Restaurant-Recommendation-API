@@ -6,6 +6,5 @@ package com.egepancaroglu.userreviewservice.dto.response;
 public record AddressResponse(String city,
                               String state,
                               String district,
-                              String street,
-                              Long userId){
+                              String street) {
 }

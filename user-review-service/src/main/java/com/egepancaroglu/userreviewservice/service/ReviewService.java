@@ -1,6 +1,7 @@
 package com.egepancaroglu.userreviewservice.service;
 
 import com.egepancaroglu.userreviewservice.dto.ReviewDTO;
+import com.egepancaroglu.userreviewservice.dto.response.ReviewResponse;
 import com.egepancaroglu.userreviewservice.request.review.ReviewSaveRequest;
 import com.egepancaroglu.userreviewservice.request.review.ReviewUpdateRequest;
 
@@ -16,9 +17,9 @@ public interface ReviewService {
 
     ReviewDTO getReviewById(Long id);
 
-    ReviewDTO saveReview(ReviewSaveRequest request);
+    ReviewResponse saveReview(ReviewSaveRequest request);
 
-    ReviewDTO updateReview(ReviewUpdateRequest request);
+    ReviewResponse updateReview(ReviewUpdateRequest request);
 
     void deleteReviewById(Long id);
 }

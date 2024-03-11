@@ -9,5 +9,6 @@ public record AddressDTO(Long id,
                          String state,
                          String district,
                          String street,
+                         String location,
                          Long userId) {
 }
