@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getUserEntity(Long id) {
-
         return userRepository.findById(id).orElseThrow();
     }
 

@@ -15,4 +15,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findReviewsByRestaurantId(String restaurantId);
 
+    Integer countReviewByRestaurantId(String restaurantId);
+
 }

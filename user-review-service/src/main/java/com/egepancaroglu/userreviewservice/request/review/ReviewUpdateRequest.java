@@ -8,6 +8,7 @@ import jakarta.validation.constraints.*;
 
 public record ReviewUpdateRequest(
         @NotNull(message = "Id can't be null or blank !")
+        @Min(value = 0, message = "Id must be greater than or equal to 0")
         Long id,
         @NotBlank(message = "Comment can't be null or blank !")
         @Size(min = 3, max = 150)

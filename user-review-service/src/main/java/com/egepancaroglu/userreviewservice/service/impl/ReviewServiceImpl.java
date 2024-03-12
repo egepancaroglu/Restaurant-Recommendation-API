@@ -15,6 +15,7 @@ import com.egepancaroglu.userreviewservice.service.ReviewService;
 import com.egepancaroglu.userreviewservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +97,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     @Override
+    @Transactional
     public void deleteReviewById(Long id) {
         Review deletedReview = reviewRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(ErrorMessages.REVIEW_NOT_FOUND));
@@ -107,24 +109,22 @@ public class ReviewServiceImpl implements ReviewService {
         updateRestaurantAverageScore(restaurantId);
     }
 
-
     private void updateRestaurantAverageScore(String restaurantId) {
-        List<Review> reviewList = reviewRepository.findReviewsByRestaurantId(restaurantId);
-        updateRestaurantAverageScoreCommon(restaurantId, reviewList);
-    }
 
-    private void updateRestaurantAverageScoreCommon(String restaurantId, List<Review> reviewList) {
-        double totalScore = 0.0;
+        List<Review> reviewList = reviewRepository.findReviewsByRestaurantId(restaurantId);
+        int reviewCount = reviewRepository.countReviewByRestaurantId(restaurantId);
+
+        double totalScore = 0;
 
         for (Review reviewElement : reviewList) {
             totalScore += reviewElement.getRate();
         }
 
         double averageScore;
-        if (!reviewList.isEmpty()) {
-            averageScore = totalScore / reviewList.size();
+        if (reviewCount > 0) {
+            averageScore = totalScore / reviewCount;
         } else {
-            throw new ItemNotFoundException(ErrorMessages.REVIEW_LIST_EMPTY);
+            averageScore = 0;
         }
 
         restaurantClient.updateRestaurantAverageScore(restaurantId,
