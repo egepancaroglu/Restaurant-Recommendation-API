@@ -8,5 +8,5 @@ public record ReviewDTO(Long id,
                         String comment,
                         byte rate,
                         Long userId,
-                        Long restaurantId) {
+                        String restaurantId) {
 }

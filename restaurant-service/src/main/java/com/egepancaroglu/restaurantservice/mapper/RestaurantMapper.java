@@ -19,6 +19,7 @@ import java.util.List;
 public interface RestaurantMapper {
 
     @Mapping(target = "status", constant = "INACTIVE")
+    @Mapping(target = "averageScore", constant = "0.0")
     Restaurant convertSaveRequestToRestaurant(RestaurantSaveRequest request);
 
     RestaurantDTO convertRestaurantToRestaurantDTO(Restaurant restaurant);

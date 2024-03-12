@@ -24,12 +24,12 @@ public class Review {
 
     @Column(name = "comment")
     private String comment;
-    
+
     @Column(name = "rate")
     private short rate;
 
     @Column(name = "restaurant_id")
-    private Long restaurantId;
+    private String restaurantId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

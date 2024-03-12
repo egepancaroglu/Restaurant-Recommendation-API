@@ -18,5 +18,5 @@ public record ReviewSaveRequest(
         @NotNull(message = "Id can't be null or blank !")
         Long userId,
         @NotNull(message = "Id can't be null or blank !")
-        Long restaurantId) {
+        String restaurantId) {
 }

@@ -28,7 +28,10 @@ public class ControllerAdvice {
     @ExceptionHandler
     public final ResponseEntity<Object> handleAllExceptions(Exception e, WebRequest request) {
 
-        GeneralErrorMessages generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), "Error", "Bir hata oluştu");
+        String message = e.getMessage();
+        String description = request.getDescription(false);
+
+        GeneralErrorMessages generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), message, description);
 
         RestResponse<GeneralErrorMessages> restResponse = RestResponse.error(generalErrorMessages);
 
@@ -58,7 +61,9 @@ public class ControllerAdvice {
         Map<String, String> errorMap = new HashMap<>();
 
         for (FieldError fieldError : fieldErrorList) {
-            errorMap.put(fieldError.getField(), fieldError.getRejectedValue().toString() + " " + fieldError.getDefaultMessage());
+            Object rejectedValue = fieldError.getRejectedValue();
+            String errorMessage = (rejectedValue != null) ? rejectedValue.toString() : "null";
+            errorMap.put(fieldError.getField(), errorMessage + " " + fieldError.getDefaultMessage());
         }
 
         var validationErrorMessages = new ValidationErrorMessages(LocalDateTime.now(), errorMap, METHOD_ARGUMENT_NOT_VALID.getMessage(), description);

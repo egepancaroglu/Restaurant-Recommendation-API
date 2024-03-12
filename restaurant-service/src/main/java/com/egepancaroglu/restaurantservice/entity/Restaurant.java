@@ -34,14 +34,10 @@ public class Restaurant {
     private Double averageScore;
 
     @Field
-    private int reviewCount;
-
-    @Field
     private Status status;
 
     public Restaurant() {
         this.id = generateUniqueId();
-        this.averageScore = Math.random() * 5;
     }
 
     private String generateUniqueId() {
