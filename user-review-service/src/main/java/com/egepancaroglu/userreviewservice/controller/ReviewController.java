@@ -36,11 +36,17 @@ public class ReviewController {
         return ResponseEntity.ok(RestResponse.of(reviewService.getReviewById(id)));
     }
 
+    @GetMapping("/with-restaurantId/{restaurantId}")
+    public ResponseEntity<RestResponse<List<ReviewDTO>>> getReviewsByRestaurantId(@PathVariable String restaurantId) {
+        return ResponseEntity.ok(RestResponse.of(reviewService.getReviewsByRestaurantId(restaurantId)));
+    }
+
     @PostMapping
     public ResponseEntity<RestResponse<ReviewResponse>> createReview(@Valid @RequestBody ReviewSaveRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(RestResponse.of(reviewService.saveReview(request)));
     }
+
 
     @PutMapping
     @ResponseStatus(value = HttpStatus.OK)

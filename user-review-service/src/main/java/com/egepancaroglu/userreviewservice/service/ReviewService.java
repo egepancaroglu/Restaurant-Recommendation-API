@@ -17,9 +17,13 @@ public interface ReviewService {
 
     ReviewDTO getReviewById(Long id);
 
+    List<ReviewDTO> getReviewsByRestaurantId(String restaurantId);
+
     ReviewResponse saveReview(ReviewSaveRequest request);
 
     ReviewResponse updateReview(ReviewUpdateRequest request);
 
     void deleteReviewById(Long id);
+
+
 }

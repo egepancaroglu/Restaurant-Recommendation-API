@@ -2,6 +2,7 @@ package com.egepancaroglu.restaurantservice.controller;
 
 import com.egepancaroglu.restaurantservice.dto.RestaurantDTO;
 import com.egepancaroglu.restaurantservice.request.RestaurantSaveRequest;
+import com.egepancaroglu.restaurantservice.request.RestaurantUpdateAverageScoreRequest;
 import com.egepancaroglu.restaurantservice.request.RestaurantUpdateRequest;
 import com.egepancaroglu.restaurantservice.response.RestResponse;
 import com.egepancaroglu.restaurantservice.service.RestaurantService;
@@ -34,7 +35,7 @@ public class RestaurantController {
         return ResponseEntity.ok(RestResponse.of(restaurantService.getAllRestaurants()));
     }
 
-    @GetMapping("/recommend/{userId}")
+    @GetMapping("/recommendRestaurants/{userId}")
     public ResponseEntity<RestResponse<List<RestaurantDTO>>> getRecommendedRestaurantsByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(RestResponse.of(restaurantService.getRecommendedRestaurantsByUserId(userId)));
     }
@@ -48,6 +49,11 @@ public class RestaurantController {
     @PutMapping
     public ResponseEntity<RestaurantDTO> updateRestaurant(@Valid @RequestBody RestaurantUpdateRequest request) {
         return ResponseEntity.ok(restaurantService.updateRestaurant(request));
+    }
+
+    @PutMapping("/{id}/averageScore")
+    public ResponseEntity<RestResponse<RestaurantDTO>> updateRestaurantAverageScore(@PathVariable String id, @RequestBody RestaurantUpdateAverageScoreRequest request) {
+        return ResponseEntity.ok(RestResponse.of(restaurantService.updateRestaurantAverageScore(request)));
     }
 
     @PatchMapping("/{id}/activate")

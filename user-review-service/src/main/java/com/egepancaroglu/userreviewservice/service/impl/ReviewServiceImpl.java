@@ -1,5 +1,6 @@
 package com.egepancaroglu.userreviewservice.service.impl;
 
+import com.egepancaroglu.userreviewservice.client.RestaurantClient;
 import com.egepancaroglu.userreviewservice.dto.ReviewDTO;
 import com.egepancaroglu.userreviewservice.dto.response.ReviewResponse;
 import com.egepancaroglu.userreviewservice.entity.Review;
@@ -7,6 +8,7 @@ import com.egepancaroglu.userreviewservice.exception.ItemNotFoundException;
 import com.egepancaroglu.userreviewservice.general.ErrorMessages;
 import com.egepancaroglu.userreviewservice.mapper.ReviewMapper;
 import com.egepancaroglu.userreviewservice.repository.ReviewRepository;
+import com.egepancaroglu.userreviewservice.request.restaurant.RestaurantUpdateAverageScoreRequest;
 import com.egepancaroglu.userreviewservice.request.review.ReviewSaveRequest;
 import com.egepancaroglu.userreviewservice.request.review.ReviewUpdateRequest;
 import com.egepancaroglu.userreviewservice.service.ReviewService;
@@ -28,6 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewMapper reviewMapper;
     private final UserService userService;
+    private final RestaurantClient restaurantClient;
 
     @Override
     public List<ReviewDTO> getAllReviews() {
@@ -54,35 +57,79 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewResponse saveReview(ReviewSaveRequest request) {
+    public List<ReviewDTO> getReviewsByRestaurantId(String restaurantId) {
 
-        Review review = reviewMapper.convertToReview(request);
+        List<Review> reviewList = reviewRepository.findReviewsByRestaurantId(restaurantId);
 
-        review.setUser(userService.getUserEntity(request.userId()));
-
-        review = reviewRepository.save(review);
-
-        return reviewMapper.convertToReviewResponse(review);
+        return reviewList.stream()
+                .map(reviewMapper::convertToReviewDTO)
+                .toList();
 
     }
 
     @Override
-    public ReviewResponse updateReview(ReviewUpdateRequest request) {
+    public ReviewResponse saveReview(ReviewSaveRequest request) {
 
-        Review review = reviewRepository.findById(request.id()).orElseThrow();
-        reviewMapper.updateReviewRequestToUser(review, request);
+        Review review = reviewMapper.convertToReview(request);
+        review.setUser(userService.getUserEntity(request.userId()));
+        review = reviewRepository.save(review);
 
-        reviewRepository.save(review);
+        updateRestaurantAverageScore(request.restaurantId());
 
         return reviewMapper.convertToReviewResponse(review);
+    }
 
+    @Override
+    public ReviewResponse updateReview(ReviewUpdateRequest request) {
+        Review review = reviewRepository.findById(request.id())
+                .orElseThrow(() -> new ItemNotFoundException(ErrorMessages.REVIEW_NOT_FOUND));
+
+
+        reviewMapper.updateReviewRequestToUser(review, request);
+        reviewRepository.save(review);
+
+
+        updateRestaurantAverageScore(review.getRestaurantId());
+
+        return reviewMapper.convertToReviewResponse(review);
     }
 
 
     @Override
     public void deleteReviewById(Long id) {
+        Review deletedReview = reviewRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(ErrorMessages.REVIEW_NOT_FOUND));
+
+        String restaurantId = deletedReview.getRestaurantId();
 
         reviewRepository.deleteById(id);
 
+        updateRestaurantAverageScore(restaurantId);
     }
+
+
+    private void updateRestaurantAverageScore(String restaurantId) {
+        List<Review> reviewList = reviewRepository.findReviewsByRestaurantId(restaurantId);
+        updateRestaurantAverageScoreCommon(restaurantId, reviewList);
+    }
+
+    private void updateRestaurantAverageScoreCommon(String restaurantId, List<Review> reviewList) {
+        double totalScore = 0.0;
+
+        for (Review reviewElement : reviewList) {
+            totalScore += reviewElement.getRate();
+        }
+
+        double averageScore;
+        if (!reviewList.isEmpty()) {
+            averageScore = totalScore / reviewList.size();
+        } else {
+            throw new ItemNotFoundException(ErrorMessages.REVIEW_LIST_EMPTY);
+        }
+
+        restaurantClient.updateRestaurantAverageScore(restaurantId,
+                new RestaurantUpdateAverageScoreRequest(restaurantId, averageScore));
+    }
+
+
 }

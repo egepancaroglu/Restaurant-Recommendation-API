@@ -11,6 +11,7 @@ import com.egepancaroglu.restaurantservice.general.ErrorMessages;
 import com.egepancaroglu.restaurantservice.mapper.RestaurantMapper;
 import com.egepancaroglu.restaurantservice.repository.RestaurantRepository;
 import com.egepancaroglu.restaurantservice.request.RestaurantSaveRequest;
+import com.egepancaroglu.restaurantservice.request.RestaurantUpdateAverageScoreRequest;
 import com.egepancaroglu.restaurantservice.request.RestaurantUpdateRequest;
 import com.egepancaroglu.restaurantservice.response.RestResponse;
 import com.egepancaroglu.restaurantservice.service.RestaurantService;
@@ -59,21 +60,21 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     }
 
+
     @Override
     public List<RestaurantDTO> getRecommendedRestaurantsByUserId(Long userId) {
 
         ResponseEntity<RestResponse<List<AddressDTO>>> addressDTOResponse = addressFeignClient.getAddressesByUserId(userId);
 
         List<AddressDTO> addressDTOList = Objects.requireNonNull(addressDTOResponse.getBody()).getData();
-        
+
         AddressDTO firstAddress = addressDTOList.get(0);
 
-        String userLocation = firstAddress.location();
+        String userLocation = firstAddress.location().replaceAll(",\\s+", ",");
 
         List<Restaurant> restaurantList = solrClientService.performSolrQuery(userLocation);
 
         return restaurantMapper.convertRestaurantsToRestaurantDTOs(restaurantList);
-
 
     }
 
@@ -98,6 +99,20 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         return restaurantMapper.convertRestaurantToRestaurantDTO(restaurant);
     }
+
+    @Override
+    public RestaurantDTO updateRestaurantAverageScore(RestaurantUpdateAverageScoreRequest request) {
+
+        Restaurant restaurant = restaurantRepository.findById(request.id()).orElseThrow(() -> new ItemNotFoundException(ErrorMessages.RESTAURANT_NOT_FOUND));
+
+        restaurant.setAverageScore(request.AverageScore());
+
+        restaurantRepository.save(restaurant);
+
+        return restaurantMapper.convertRestaurantToRestaurantDTO(restaurant);
+
+    }
+
 
     @Override
     public void deleteRestaurant(String id) {

@@ -12,7 +12,9 @@ public enum ErrorMessages implements BaseErrorMessage {
     USER_NOT_FOUND("User Not Found !"),
     REVIEW_NOT_FOUND("Review Not Found !"),
     ADDRESS_NOT_FOUND("Address Not Found !"),
-    METHOD_ARGUMENT_NOT_VALID("Method Argument Not Valid !");
+    METHOD_ARGUMENT_NOT_VALID("Method Argument Not Valid !"),
+    REVIEW_LIST_EMPTY("Review List Empty !");
+
     private final String message;
 
     ErrorMessages(String message) {
