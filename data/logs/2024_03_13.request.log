@@ -1,0 +1,11 @@
+127.0.0.1 - - [13/Mar/2024:05:12:50 +0000] "GET /solr/admin/info/system?wt=javabin&version=2 HTTP/2.0" 200 2532
+127.0.0.1 - - [13/Mar/2024:05:12:50 +0000] "GET /solr/admin/cores?action=UNLOAD&core=restaurants&indexInfo=true&deleteIndex=true&deleteDataDir=true&deleteInstanceDir=true&wt=json&version=2.2 HTTP/2.0" 200 60
+172.19.0.1 - - [13/Mar/2024:05:16:23 +0000] "GET /solr/restaurants/select?q=*%3A*&start=0&rows=0&wt=javabin&version=2 HTTP/1.1" 200 114
+172.19.0.1 - - [13/Mar/2024:05:16:36 +0000] "POST /solr/restaurants/update?wt=javabin&version=2 HTTP/1.1" 200 41
+172.19.0.1 - - [13/Mar/2024:05:16:36 +0000] "POST /solr/restaurants/update HTTP/1.1" 200 41
+172.19.0.1 - - [13/Mar/2024:05:17:28 +0000] "GET /solr/restaurants/select?q=*%3A*&start=0&rows=0&wt=javabin&version=2 HTTP/1.1" 200 113
+172.19.0.1 - - [13/Mar/2024:05:17:28 +0000] "GET /solr/restaurants/select?q=*%3A*&start=0&rows=1&wt=javabin&version=2 HTTP/1.1" 200 273
+172.19.0.1 - - [13/Mar/2024:05:17:35 +0000] "GET /solr/restaurants/select?q=*%3A*&start=0&fq=fq%3D%7B%21geofilt+pt%3D40.20587458305082%2C29.007628871803306+sfield%3Dlocation+d%3D10%7D&sort=sum%28mul%28div%28averageScore%2C5%29%2C7%29%2Cmul%28div%28sub%2810%2Cgeodist%2840.20587458305082%2C29.007628871803306%2Clocation%29%29%2C10%29%2C3%29%29+desc&rows=3&wt=javabin&version=2 HTTP/1.1" 200 476
+172.19.0.1 - - [13/Mar/2024:05:17:55 +0000] "POST /solr/restaurants/update?wt=javabin&version=2 HTTP/1.1" 200 41
+172.19.0.1 - - [13/Mar/2024:05:17:56 +0000] "POST /solr/restaurants/update HTTP/1.1" 200 41
+172.19.0.1 - - [13/Mar/2024:05:18:00 +0000] "GET /solr/restaurants/select?q=*%3A*&start=0&fq=fq%3D%7B%21geofilt+pt%3D40.20587458305082%2C29.007628871803306+sfield%3Dlocation+d%3D10%7D&sort=sum%28mul%28div%28averageScore%2C5%29%2C7%29%2Cmul%28div%28sub%2810%2Cgeodist%2840.20587458305082%2C29.007628871803306%2Clocation%29%29%2C10%29%2C3%29%29+desc&rows=3&wt=javabin&version=2 HTTP/1.1" 200 475

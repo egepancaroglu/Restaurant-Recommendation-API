@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
 import java.util.UUID;
@@ -25,15 +26,19 @@ public class Restaurant {
     private String id;
 
     @Field
+    @Indexed(name = "id", type = "string")
     private String name;
 
     @Field
+    @Indexed(name = "location", type = "location")
     private String location;
 
     @Field
+    @Indexed(name = "averageScore", type = "pdouble")
     private Double averageScore;
 
     @Field
+    @Indexed(name = "status", type = "string")
     private Status status;
 
     public Restaurant() {
