@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author egepancaroglu
  */
 
-@FeignClient(name = "restaurant-service", url = "http://localhost:8081/api/v1/restaurants")
+@FeignClient(name = "RESTAURANT-SERVICE", url = "http://localhost:8081/api/v1/restaurants")
 public interface RestaurantClient {
     @PutMapping("/{id}/averageScore")
     ResponseEntity<RestResponse<ReviewResponse>> updateRestaurantAverageScore(@PathVariable String id, @RequestBody RestaurantUpdateAverageScoreRequest request);

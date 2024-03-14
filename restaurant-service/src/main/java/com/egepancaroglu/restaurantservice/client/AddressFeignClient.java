@@ -13,7 +13,7 @@ import java.util.List;
  * @author egepancaroglu
  */
 
-@FeignClient(name = "user-review-service", url = "http://localhost:8080/api/v1/addresses")
+@FeignClient(name = "USER-REVIEW-SERVICE", url = "http://localhost:8080/api/v1/addresses")
 public interface AddressFeignClient {
     @GetMapping("/with-userId/{userId}")
     ResponseEntity<RestResponse<List<AddressDTO>>> getAddressesByUserId(@PathVariable Long userId);
