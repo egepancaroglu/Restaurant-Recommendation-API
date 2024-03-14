@@ -52,234 +52,182 @@ class RestaurantServiceImplTest {
     }
 
     @Test
-    void testGetRestaurantById() {
-        // Setup
-        final RestaurantDTO expectedResult = new RestaurantDTO("id", "name", "location", 0.0);
+    void shouldGetRestaurantById() {
+        RestaurantDTO expectedResult = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
 
-        // Configure RestaurantRepository.findById(...).
-        final Optional<Restaurant> restaurant = Optional.of(
-                new Restaurant("id", "name", "location", 0.0, Status.ACTIVE));
-        when(mockRestaurantRepository.findById("id")).thenReturn(restaurant);
+        Optional<Restaurant> restaurant = Optional.of(
+                new Restaurant("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0, Status.ACTIVE));
+        when(mockRestaurantRepository.findById("u23-b231a")).thenReturn(restaurant);
 
-        // Configure RestaurantMapper.convertRestaurantToRestaurantDTO(...).
-        final RestaurantDTO restaurantDTO = new RestaurantDTO("id", "name", "location", 0.0);
+        RestaurantDTO restaurantDTO = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
         when(mockRestaurantMapper.convertRestaurantToRestaurantDTO(any(Restaurant.class))).thenReturn(restaurantDTO);
 
-        // Run the test
-        final RestaurantDTO result = restaurantServiceImplUnderTest.getRestaurantById("id");
+        RestaurantDTO result = restaurantServiceImplUnderTest.getRestaurantById("u23-b231a");
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
-    void testGetRestaurantById_RestaurantRepositoryReturnsAbsent() {
-        // Setup
-        when(mockRestaurantRepository.findById("id")).thenReturn(Optional.empty());
+    void shouldGetRestaurantById_RestaurantRepositoryReturnsAbsent() {
+        when(mockRestaurantRepository.findById("u23-b231a")).thenReturn(Optional.empty());
 
-        // Run the test
-        assertThatThrownBy(() -> restaurantServiceImplUnderTest.getRestaurantById("id"))
+        assertThatThrownBy(() -> restaurantServiceImplUnderTest.getRestaurantById("u23-b231a"))
                 .isInstanceOf(ItemNotFoundException.class);
     }
 
     @Test
-    void testGetAllRestaurants() {
-        // Setup
-        final List<RestaurantDTO> expectedResult = List.of(new RestaurantDTO("id", "name", "location", 0.0));
+    void shouldGetAllRestaurants() {
+        List<RestaurantDTO> expectedResult = List.of(new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0));
 
-        // Configure RestaurantRepository.findAll(...).
-        final Iterable<Restaurant> restaurants = List.of(new Restaurant("id", "name", "location", 0.0, Status.ACTIVE));
+        Iterable<Restaurant> restaurants = List.of(new Restaurant("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0, Status.ACTIVE));
         when(mockRestaurantRepository.findAll()).thenReturn(restaurants);
 
-        // Configure RestaurantMapper.convertRestaurantToRestaurantDTO(...).
-        final RestaurantDTO restaurantDTO = new RestaurantDTO("id", "name", "location", 0.0);
+        RestaurantDTO restaurantDTO = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
         when(mockRestaurantMapper.convertRestaurantToRestaurantDTO(any(Restaurant.class))).thenReturn(restaurantDTO);
 
-        // Run the test
-        final List<RestaurantDTO> result = restaurantServiceImplUnderTest.getAllRestaurants();
+        List<RestaurantDTO> result = restaurantServiceImplUnderTest.getAllRestaurants();
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
-    void testGetAllRestaurants_RestaurantRepositoryReturnsNoItems() {
-        // Setup
+    void shouldGetAllRestaurants_RestaurantRepositoryReturnsNoItems() {
         when(mockRestaurantRepository.findAll()).thenReturn(Collections.emptyList());
 
-        // Run the test
-        final List<RestaurantDTO> result = restaurantServiceImplUnderTest.getAllRestaurants();
+        List<RestaurantDTO> result = restaurantServiceImplUnderTest.getAllRestaurants();
 
-        // Verify the results
         assertThat(result).isEqualTo(Collections.emptyList());
     }
 
     @Test
-    void testGetRecommendedRestaurantsByUserId() {
-        // Setup
-        final List<RestaurantDTO> expectedResult = List.of(new RestaurantDTO("0L", "name", "45.54554,45.454543", 0.0));
+    void shouldGetRecommendedRestaurantsByUserId() {
+        List<RestaurantDTO> expectedResult = List.of(new RestaurantDTO("u23-b231a", "testRestaurant", "45.42,38.54", 1.0));
 
-        // Configure AddressFeignClient.getAddressesByUserId(...).
-        final ResponseEntity<RestResponse<List<AddressDTO>>> restResponseEntity = new ResponseEntity<>(
-                new RestResponse<>(List.of(new AddressDTO(0L, "city", "state", "district", "street", "45.54554,45.454543", 0L)),
-                        false), HttpStatus.OK);
+        ResponseEntity<RestResponse<List<AddressDTO>>> restResponseEntity = new ResponseEntity<>(
+                new RestResponse<>(List.of(new AddressDTO(0L, "city", "state", "district", "street", "45.42,38.54", 0L)),
+                        true), HttpStatus.OK);
         when(mockAddressFeignClient.getAddressesByUserId(0L)).thenReturn(restResponseEntity);
 
-        // Configure SolrClientService.performSolrQuery(...).
-        final List<Restaurant> restaurantList = List.of(new Restaurant("0L", "name", "45.54554,45.454543", 0.0, Status.ACTIVE));
-        when(mockSolrClientService.performSolrQuery("45.54554,45.454543")).thenReturn(restaurantList);
+        List<Restaurant> restaurantList = List.of(new Restaurant("u23-b231a", "testRestaurant", "44.42,39.54", 1.0, Status.ACTIVE));
+        when(mockSolrClientService.performSolrQuery("45.42,38.54")).thenReturn(restaurantList);
 
-        // Configure RestaurantMapper.convertRestaurantsToRestaurantDTOs(...).
-        final List<RestaurantDTO> restaurantDTOList = List.of(new RestaurantDTO("0L", "name", "45.54554,45.454543", 0.0));
+        List<RestaurantDTO> restaurantDTOList = List.of(new RestaurantDTO("u23-b231a", "testRestaurant", "45.42,38.54", 1.0));
         when(mockRestaurantMapper.convertRestaurantsToRestaurantDTOs(anyList()))
                 .thenReturn(restaurantDTOList);
 
-        // Run the test
-        final List<RestaurantDTO> result = restaurantServiceImplUnderTest.getRecommendedRestaurantsByUserId(0L);
+        List<RestaurantDTO> result = restaurantServiceImplUnderTest.getRecommendedRestaurantsByUserId(0L);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
 
     @Test
-    void testSaveRestaurant() {
-        // Setup
-        final RestaurantSaveRequest request = new RestaurantSaveRequest("name", "location");
-        final RestaurantDTO expectedResult = new RestaurantDTO("id", "name", "location", 0.0);
+    void shouldSaveRestaurant() {
+        RestaurantSaveRequest request = new RestaurantSaveRequest("testRestaurant", "45.42, 38.54");
+        RestaurantDTO expectedResult = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
 
-        // Configure RestaurantMapper.convertSaveRequestToRestaurant(...).
-        final Restaurant restaurant = new Restaurant("id", "name", "location", 0.0, Status.ACTIVE);
+        Restaurant restaurant = new Restaurant("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0, Status.ACTIVE);
         when(mockRestaurantMapper.convertSaveRequestToRestaurant(
-                new RestaurantSaveRequest("name", "location"))).thenReturn(restaurant);
+                new RestaurantSaveRequest("testRestaurant", "45.42, 38.54"))).thenReturn(restaurant);
 
-        // Configure RestaurantRepository.save(...).
-        final Restaurant restaurant1 = new Restaurant("id", "name", "location", 0.0, Status.ACTIVE);
+        Restaurant restaurant1 = new Restaurant("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0, Status.ACTIVE);
         when(mockRestaurantRepository.save(any(Restaurant.class))).thenReturn(restaurant1);
 
-        // Configure RestaurantMapper.convertRestaurantToRestaurantDTO(...).
-        final RestaurantDTO restaurantDTO = new RestaurantDTO("id", "name", "location", 0.0);
+        RestaurantDTO restaurantDTO = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
         when(mockRestaurantMapper.convertRestaurantToRestaurantDTO(any(Restaurant.class))).thenReturn(restaurantDTO);
 
-        // Run the test
-        final RestaurantDTO result = restaurantServiceImplUnderTest.saveRestaurant(request);
+        RestaurantDTO result = restaurantServiceImplUnderTest.saveRestaurant(request);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
-    void testUpdateRestaurant() {
-        // Setup
-        final RestaurantUpdateRequest request = new RestaurantUpdateRequest("id", "name", "longitude");
-        final RestaurantDTO expectedResult = new RestaurantDTO("id", "name", "location", 0.0);
+    void shouldUpdateRestaurant() {
+        RestaurantUpdateRequest request = new RestaurantUpdateRequest("u23-b231a", "testRestaurant", "45.42, 38.54");
+        RestaurantDTO expectedResult = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
 
-        // Configure RestaurantRepository.findById(...).
-        final Optional<Restaurant> restaurant = Optional.of(
-                new Restaurant("id", "name", "location", 0.0, Status.ACTIVE));
-        when(mockRestaurantRepository.findById("id")).thenReturn(restaurant);
+        Optional<Restaurant> restaurant = Optional.of(
+                new Restaurant("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0, Status.ACTIVE));
+        when(mockRestaurantRepository.findById("u23-b231a")).thenReturn(restaurant);
 
-        // Configure RestaurantMapper.convertRestaurantToRestaurantDTO(...).
-        final RestaurantDTO restaurantDTO = new RestaurantDTO("id", "name", "location", 0.0);
+        RestaurantDTO restaurantDTO = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
         when(mockRestaurantMapper.convertRestaurantToRestaurantDTO(any(Restaurant.class))).thenReturn(restaurantDTO);
 
-        // Run the test
-        final RestaurantDTO result = restaurantServiceImplUnderTest.updateRestaurant(request);
+        RestaurantDTO result = restaurantServiceImplUnderTest.updateRestaurant(request);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
         verify(mockRestaurantMapper).updateRestaurantRequestToRestaurant(any(Restaurant.class),
-                eq(new RestaurantUpdateRequest("id", "name", "longitude")));
+                eq(new RestaurantUpdateRequest("u23-b231a", "testRestaurant", "45.42, 38.54")));
         verify(mockRestaurantRepository).save(any(Restaurant.class));
     }
 
     @Test
-    void testUpdateRestaurant_RestaurantRepositoryFindByIdReturnsAbsent() {
-        // Setup
-        final RestaurantUpdateRequest request = new RestaurantUpdateRequest("id", "name", "longitude");
-        when(mockRestaurantRepository.findById("id")).thenReturn(Optional.empty());
+    void shouldUpdateRestaurant_RestaurantRepositoryFindByIdReturnsAbsent() {
+        RestaurantUpdateRequest request = new RestaurantUpdateRequest("u23-b231a", "testRestaurant", "45.42, 38.54");
+        when(mockRestaurantRepository.findById("u23-b231a")).thenReturn(Optional.empty());
 
-        // Run the test
         assertThatThrownBy(() -> restaurantServiceImplUnderTest.updateRestaurant(request))
                 .isInstanceOf(ItemNotFoundException.class);
     }
 
     @Test
-    void testUpdateRestaurantAverageScore() {
-        // Setup
-        final RestaurantUpdateAverageScoreRequest request = new RestaurantUpdateAverageScoreRequest("id", 0.0);
-        final RestaurantDTO expectedResult = new RestaurantDTO("id", "name", "location", 0.0);
+    void shouldUpdateRestaurantAverageScore() {
+        RestaurantUpdateAverageScoreRequest request = new RestaurantUpdateAverageScoreRequest("u23-b231a", 1.0);
+        RestaurantDTO expectedResult = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
 
-        // Configure RestaurantRepository.findById(...).
-        final Optional<Restaurant> restaurant = Optional.of(
-                new Restaurant("id", "name", "location", 0.0, Status.ACTIVE));
-        when(mockRestaurantRepository.findById("id")).thenReturn(restaurant);
+        Optional<Restaurant> restaurant = Optional.of(
+                new Restaurant("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0, Status.ACTIVE));
+        when(mockRestaurantRepository.findById("u23-b231a")).thenReturn(restaurant);
 
-        // Configure RestaurantMapper.convertRestaurantToRestaurantDTO(...).
-        final RestaurantDTO restaurantDTO = new RestaurantDTO("id", "name", "location", 0.0);
+        RestaurantDTO restaurantDTO = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
         when(mockRestaurantMapper.convertRestaurantToRestaurantDTO(any(Restaurant.class))).thenReturn(restaurantDTO);
 
-        // Run the test
-        final RestaurantDTO result = restaurantServiceImplUnderTest.updateRestaurantAverageScore(request);
+        RestaurantDTO result = restaurantServiceImplUnderTest.updateRestaurantAverageScore(request);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
         verify(mockRestaurantRepository).save(any(Restaurant.class));
     }
 
     @Test
-    void testUpdateRestaurantAverageScore_RestaurantRepositoryFindByIdReturnsAbsent() {
-        // Setup
-        final RestaurantUpdateAverageScoreRequest request = new RestaurantUpdateAverageScoreRequest("id", 0.0);
-        when(mockRestaurantRepository.findById("id")).thenReturn(Optional.empty());
+    void shouldUpdateRestaurantAverageScore_RestaurantRepositoryFindByIdReturnsAbsent() {
+        RestaurantUpdateAverageScoreRequest request = new RestaurantUpdateAverageScoreRequest("u23-b231a", 1.0);
+        when(mockRestaurantRepository.findById("u23-b231a")).thenReturn(Optional.empty());
 
-        // Run the test
         assertThatThrownBy(() -> restaurantServiceImplUnderTest.updateRestaurantAverageScore(request))
                 .isInstanceOf(ItemNotFoundException.class);
     }
 
     @Test
-    void testDeleteRestaurant() {
-        // Setup
-        // Run the test
-        restaurantServiceImplUnderTest.deleteRestaurant("id");
+    void shouldDeleteRestaurant() {
+        restaurantServiceImplUnderTest.deleteRestaurant("u23-b231a");
 
-        // Verify the results
-        verify(mockRestaurantRepository).deleteById("id");
+        verify(mockRestaurantRepository).deleteById("u23-b231a");
     }
 
     @Test
-    void testActivateRestaurant() {
-        // Setup
-        final RestaurantDTO expectedResult = new RestaurantDTO("id", "name", "location", 0.0);
+    void shouldActivateRestaurant() {
+        RestaurantDTO expectedResult = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
 
-        // Configure RestaurantRepository.findById(...).
-        final Optional<Restaurant> restaurant = Optional.of(
-                new Restaurant("id", "name", "location", 0.0, Status.ACTIVE));
-        when(mockRestaurantRepository.findById("id")).thenReturn(restaurant);
+        Optional<Restaurant> restaurant = Optional.of(
+                new Restaurant("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0, Status.ACTIVE));
+        when(mockRestaurantRepository.findById("u23-b231a")).thenReturn(restaurant);
 
-        // Configure RestaurantRepository.save(...).
-        final Restaurant restaurant1 = new Restaurant("id", "name", "location", 0.0, Status.ACTIVE);
+        Restaurant restaurant1 = new Restaurant("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0, Status.ACTIVE);
         when(mockRestaurantRepository.save(any(Restaurant.class))).thenReturn(restaurant1);
 
-        // Configure RestaurantMapper.convertRestaurantToRestaurantDTO(...).
-        final RestaurantDTO restaurantDTO = new RestaurantDTO("id", "name", "location", 0.0);
+        RestaurantDTO restaurantDTO = new RestaurantDTO("u23-b231a", "testRestaurant", "45.42, 38.54", 1.0);
         when(mockRestaurantMapper.convertRestaurantToRestaurantDTO(any(Restaurant.class))).thenReturn(restaurantDTO);
 
-        // Run the test
-        final RestaurantDTO result = restaurantServiceImplUnderTest.activateRestaurant("id");
+        RestaurantDTO result = restaurantServiceImplUnderTest.activateRestaurant("u23-b231a");
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
-    void testActivateRestaurant_RestaurantRepositoryFindByIdReturnsAbsent() {
-        // Setup
-        when(mockRestaurantRepository.findById("id")).thenReturn(Optional.empty());
+    void shouldActivateRestaurant_RestaurantRepositoryFindByIdReturnsAbsent() {
+        when(mockRestaurantRepository.findById("u23-b231a")).thenReturn(Optional.empty());
 
-        // Run the test
-        assertThatThrownBy(() -> restaurantServiceImplUnderTest.activateRestaurant("id"))
+        assertThatThrownBy(() -> restaurantServiceImplUnderTest.activateRestaurant("u23-b231a"))
                 .isInstanceOf(ItemNotFoundException.class);
     }
 }

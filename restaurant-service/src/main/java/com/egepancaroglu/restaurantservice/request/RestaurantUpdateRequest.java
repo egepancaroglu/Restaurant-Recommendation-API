@@ -1,7 +1,9 @@
 package com.egepancaroglu.restaurantservice.request;
 
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @author egepancaroglu
@@ -12,6 +14,6 @@ public record RestaurantUpdateRequest(
         @NotBlank(message = "Name can't be null or blank !")
         @Size(min = 2, max = 50)
         String name,
-        @NotNull
-        String longitude) {
+        @NotBlank(message = "Location can't be null or blank !")
+        String location) {
 }
