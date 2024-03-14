@@ -36,7 +36,7 @@ public class SolrClientService {
             queryParamMap.put("fq", "fq={!geofilt pt=" + userLocation + " sfield=location d=10}");
             queryParamMap.put("start", "0");
             queryParamMap.put("rows", "3");
-            queryParamMap.put("sort", "sum(mul(div(averageScore,5),7),mul(div(sub(10,geodist(" + userLocation + ",location)),10),3)) desc");
+            queryParamMap.put("sort", "sum(mul(averageScore,14),mul(sub(10,geodist(" + userLocation + ",location)),3)) desc");
 
             MapSolrParams queryParams = new MapSolrParams(queryParamMap);
             QueryResponse queryResponse = solrClient.query(queryParams);
