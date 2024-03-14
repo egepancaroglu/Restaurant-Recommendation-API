@@ -51,10 +51,8 @@ class ReviewServiceImplTest {
 
     @Test
     void shouldGetAllReviews() {
-        // Setup
         List<ReviewDTO> expectedResult = List.of(new ReviewDTO(0L, "comment", (byte) 0b0, 0L, "restaurantId"));
 
-        // Configure ReviewRepository.findAll(...).
         Review review = new Review();
         review.setId(0L);
         review.setComment("comment");
@@ -65,35 +63,27 @@ class ReviewServiceImplTest {
         List<Review> reviews = List.of(review);
         when(mockReviewRepository.findAll()).thenReturn(reviews);
 
-        // Configure ReviewMapper.convertToReviewDTO(...).
         ReviewDTO reviewDTO = new ReviewDTO(0L, "comment", (byte) 0b0, 0L, "restaurantId");
         when(mockReviewMapper.convertToReviewDTO(any(Review.class))).thenReturn(reviewDTO);
 
-        // Run the test
         List<ReviewDTO> result = reviewServiceImplUnderTest.getAllReviews();
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
     void shouldGetAllReviews_ReviewRepositoryReturnsNoItems() {
-        // Setup
         when(mockReviewRepository.findAll()).thenReturn(Collections.emptyList());
 
-        // Run the test
         List<ReviewDTO> result = reviewServiceImplUnderTest.getAllReviews();
 
-        // Verify the results
         assertThat(result).isEqualTo(Collections.emptyList());
     }
 
     @Test
     void shouldGetReviewById() {
-        // Setup
         ReviewDTO expectedResult = new ReviewDTO(0L, "comment", (byte) 0b0, 0L, "restaurantId");
 
-        // Configure ReviewRepository.findById(...).
         Review review1 = new Review();
         review1.setId(0L);
         review1.setComment("comment");
@@ -104,33 +94,26 @@ class ReviewServiceImplTest {
         Optional<Review> review = Optional.of(review1);
         when(mockReviewRepository.findById(0L)).thenReturn(review);
 
-        // Configure ReviewMapper.convertToReviewDTO(...).
         ReviewDTO reviewDTO = new ReviewDTO(0L, "comment", (byte) 0b0, 0L, "restaurantId");
         when(mockReviewMapper.convertToReviewDTO(any(Review.class))).thenReturn(reviewDTO);
 
-        // Run the test
         ReviewDTO result = reviewServiceImplUnderTest.getReviewById(0L);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
     void shouldGetReviewById_ReviewRepositoryReturnsAbsent() {
-        // Setup
         when(mockReviewRepository.findById(0L)).thenReturn(Optional.empty());
 
-        // Run the test
         assertThatThrownBy(() -> reviewServiceImplUnderTest.getReviewById(0L))
                 .isInstanceOf(ItemNotFoundException.class);
     }
 
     @Test
     void shouldGetReviewsByRestaurantId() {
-        // Setup
         List<ReviewDTO> expectedResult = List.of(new ReviewDTO(0L, "comment", (byte) 0b0, 0L, "restaurantId"));
 
-        // Configure ReviewRepository.findReviewsByRestaurantId(...).
         Review review = new Review();
         review.setId(0L);
         review.setComment("comment");
@@ -141,26 +124,20 @@ class ReviewServiceImplTest {
         List<Review> reviews = List.of(review);
         when(mockReviewRepository.findReviewsByRestaurantId("restaurantId")).thenReturn(reviews);
 
-        // Configure ReviewMapper.convertToReviewDTO(...).
         ReviewDTO reviewDTO = new ReviewDTO(0L, "comment", (byte) 0b0, 0L, "restaurantId");
         when(mockReviewMapper.convertToReviewDTO(any(Review.class))).thenReturn(reviewDTO);
 
-        // Run the test
         List<ReviewDTO> result = reviewServiceImplUnderTest.getReviewsByRestaurantId("restaurantId");
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
     void shouldGetReviewsByRestaurantId_ReviewRepositoryReturnsNoItems() {
-        // Setup
         when(mockReviewRepository.findReviewsByRestaurantId("restaurantId")).thenReturn(Collections.emptyList());
 
-        // Run the test
         List<ReviewDTO> result = reviewServiceImplUnderTest.getReviewsByRestaurantId("restaurantId");
 
-        // Verify the results
         assertThat(result).isEqualTo(Collections.emptyList());
     }
 
@@ -170,7 +147,6 @@ class ReviewServiceImplTest {
         ReviewSaveRequest request = new ReviewSaveRequest("comment", (byte) 0b0, 0L, "restaurantId");
         ReviewResponse expectedResult = new ReviewResponse("comment", (byte) 0b0);
 
-        // Configure ReviewMapper.convertToReview(...).
         Review review = new Review();
         review.setId(0L);
         review.setComment("comment");
@@ -181,7 +157,6 @@ class ReviewServiceImplTest {
         when(mockReviewMapper.convertToReview(
                 new ReviewSaveRequest("comment", (byte) 0b0, 0L, "restaurantId"))).thenReturn(review);
 
-        // Configure UserService.getUserEntity(...).
         User user1 = new User();
         user1.setId(0L);
         user1.setUserName("userName");
@@ -190,7 +165,6 @@ class ReviewServiceImplTest {
         user1.setEmail("email");
         when(mockUserService.getUserEntity(0L)).thenReturn(user1);
 
-        // Configure ReviewRepository.save(...).
         Review review1 = new Review();
         review1.setId(0L);
         review1.setComment("comment");
@@ -200,7 +174,6 @@ class ReviewServiceImplTest {
         review1.setUser(user2);
         when(mockReviewRepository.save(any(Review.class))).thenReturn(review1);
 
-        // Configure ReviewRepository.findReviewsByRestaurantId(...).
         Review review2 = new Review();
         review2.setId(0L);
         review2.setComment("comment");
@@ -213,14 +186,11 @@ class ReviewServiceImplTest {
 
         when(mockReviewRepository.countReviewByRestaurantId("restaurantId")).thenReturn(0);
 
-        // Configure ReviewMapper.convertToReviewResponse(...).
         ReviewResponse reviewResponse = new ReviewResponse("comment", (byte) 0b0);
         when(mockReviewMapper.convertToReviewResponse(any(Review.class))).thenReturn(reviewResponse);
 
-        // Run the test
         ReviewResponse result = reviewServiceImplUnderTest.saveReview(request);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
         verify(mockRestaurantClient).updateRestaurantAverageScore("restaurantId",
                 new RestaurantUpdateAverageScoreRequest("restaurantId", 0.0));
@@ -232,7 +202,6 @@ class ReviewServiceImplTest {
         ReviewSaveRequest request = new ReviewSaveRequest("comment", (byte) 0b0, 0L, "restaurantId");
         ReviewResponse expectedResult = new ReviewResponse("comment", (byte) 0b0);
 
-        // Configure ReviewMapper.convertToReview(...).
         Review review = new Review();
         review.setId(0L);
         review.setComment("comment");
@@ -243,7 +212,6 @@ class ReviewServiceImplTest {
         when(mockReviewMapper.convertToReview(
                 new ReviewSaveRequest("comment", (byte) 0b0, 0L, "restaurantId"))).thenReturn(review);
 
-        // Configure UserService.getUserEntity(...).
         User user1 = new User();
         user1.setId(0L);
         user1.setUserName("userName");
@@ -252,7 +220,6 @@ class ReviewServiceImplTest {
         user1.setEmail("email");
         when(mockUserService.getUserEntity(0L)).thenReturn(user1);
 
-        // Configure ReviewRepository.save(...).
         Review review1 = new Review();
         review1.setId(0L);
         review1.setComment("comment");
@@ -265,14 +232,11 @@ class ReviewServiceImplTest {
         when(mockReviewRepository.findReviewsByRestaurantId("restaurantId")).thenReturn(Collections.emptyList());
         when(mockReviewRepository.countReviewByRestaurantId("restaurantId")).thenReturn(0);
 
-        // Configure ReviewMapper.convertToReviewResponse(...).
         ReviewResponse reviewResponse = new ReviewResponse("comment", (byte) 0b0);
         when(mockReviewMapper.convertToReviewResponse(any(Review.class))).thenReturn(reviewResponse);
 
-        // Run the test
         ReviewResponse result = reviewServiceImplUnderTest.saveReview(request);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
         verify(mockRestaurantClient).updateRestaurantAverageScore("restaurantId",
                 new RestaurantUpdateAverageScoreRequest("restaurantId", 0.0));
@@ -280,11 +244,9 @@ class ReviewServiceImplTest {
 
     @Test
     void shouldUpdateReview() {
-        // Setup
         ReviewUpdateRequest request = new ReviewUpdateRequest(0L, "comment", (byte) 0b0);
         ReviewResponse expectedResult = new ReviewResponse("comment", (byte) 0b0);
 
-        // Configure ReviewRepository.findById(...).
         Review review1 = new Review();
         review1.setId(0L);
         review1.setComment("comment");
@@ -295,7 +257,6 @@ class ReviewServiceImplTest {
         Optional<Review> review = Optional.of(review1);
         when(mockReviewRepository.findById(0L)).thenReturn(review);
 
-        // Configure ReviewRepository.findReviewsByRestaurantId(...).
         Review review2 = new Review();
         review2.setId(0L);
         review2.setComment("comment");
@@ -308,14 +269,11 @@ class ReviewServiceImplTest {
 
         when(mockReviewRepository.countReviewByRestaurantId("restaurantId")).thenReturn(0);
 
-        // Configure ReviewMapper.convertToReviewResponse(...).
         ReviewResponse reviewResponse = new ReviewResponse("comment", (byte) 0b0);
         when(mockReviewMapper.convertToReviewResponse(any(Review.class))).thenReturn(reviewResponse);
 
-        // Run the test
         ReviewResponse result = reviewServiceImplUnderTest.updateReview(request);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
         verify(mockReviewMapper).updateReviewRequestToUser(any(Review.class),
                 eq(new ReviewUpdateRequest(0L, "comment", (byte) 0b0)));
@@ -326,22 +284,18 @@ class ReviewServiceImplTest {
 
     @Test
     void shouldUpdateReview_ReviewRepositoryFindByIdReturnsAbsent() {
-        // Setup
         ReviewUpdateRequest request = new ReviewUpdateRequest(0L, "comment", (byte) 0b0);
         when(mockReviewRepository.findById(0L)).thenReturn(Optional.empty());
 
-        // Run the test
         assertThatThrownBy(() -> reviewServiceImplUnderTest.updateReview(request))
                 .isInstanceOf(ItemNotFoundException.class);
     }
 
     @Test
     void shouldUpdateReview_ReviewRepositoryFindReviewsByRestaurantIdReturnsNoItems() {
-        // Setup
         ReviewUpdateRequest request = new ReviewUpdateRequest(0L, "comment", (byte) 0b0);
         ReviewResponse expectedResult = new ReviewResponse("comment", (byte) 0b0);
 
-        // Configure ReviewRepository.findById(...).
         Review review1 = new Review();
         review1.setId(0L);
         review1.setComment("comment");
@@ -355,14 +309,11 @@ class ReviewServiceImplTest {
         when(mockReviewRepository.findReviewsByRestaurantId("restaurantId")).thenReturn(Collections.emptyList());
         when(mockReviewRepository.countReviewByRestaurantId("restaurantId")).thenReturn(0);
 
-        // Configure ReviewMapper.convertToReviewResponse(...).
         ReviewResponse reviewResponse = new ReviewResponse("comment", (byte) 0b0);
         when(mockReviewMapper.convertToReviewResponse(any(Review.class))).thenReturn(reviewResponse);
 
-        // Run the test
         ReviewResponse result = reviewServiceImplUnderTest.updateReview(request);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
         verify(mockReviewMapper).updateReviewRequestToUser(any(Review.class),
                 eq(new ReviewUpdateRequest(0L, "comment", (byte) 0b0)));
@@ -373,8 +324,6 @@ class ReviewServiceImplTest {
 
     @Test
     void shouldDeleteReviewById() {
-        // Setup
-        // Configure ReviewRepository.findById(...).
         Review review1 = new Review();
         review1.setId(0L);
         review1.setComment("comment");
@@ -385,7 +334,6 @@ class ReviewServiceImplTest {
         Optional<Review> review = Optional.of(review1);
         when(mockReviewRepository.findById(0L)).thenReturn(review);
 
-        // Configure ReviewRepository.findReviewsByRestaurantId(...).
         Review review2 = new Review();
         review2.setId(0L);
         review2.setComment("comment");
@@ -398,10 +346,8 @@ class ReviewServiceImplTest {
 
         when(mockReviewRepository.countReviewByRestaurantId("restaurantId")).thenReturn(0);
 
-        // Run the test
         reviewServiceImplUnderTest.deleteReviewById(0L);
 
-        // Verify the results
         verify(mockReviewRepository).deleteById(0L);
         verify(mockRestaurantClient).updateRestaurantAverageScore("restaurantId",
                 new RestaurantUpdateAverageScoreRequest("restaurantId", 0.0));
@@ -409,18 +355,14 @@ class ReviewServiceImplTest {
 
     @Test
     void shouldDeleteReviewById_ReviewRepositoryFindByIdReturnsAbsent() {
-        // Setup
         when(mockReviewRepository.findById(0L)).thenReturn(Optional.empty());
 
-        // Run the test
         assertThatThrownBy(() -> reviewServiceImplUnderTest.deleteReviewById(0L))
                 .isInstanceOf(ItemNotFoundException.class);
     }
 
     @Test
     void shouldDeleteReviewById_ReviewRepositoryFindReviewsByRestaurantIdReturnsNoItems() {
-        // Setup
-        // Configure ReviewRepository.findById(...).
         Review review1 = new Review();
         review1.setId(0L);
         review1.setComment("comment");
@@ -434,10 +376,8 @@ class ReviewServiceImplTest {
         when(mockReviewRepository.findReviewsByRestaurantId("restaurantId")).thenReturn(Collections.emptyList());
         when(mockReviewRepository.countReviewByRestaurantId("restaurantId")).thenReturn(0);
 
-        // Run the test
         reviewServiceImplUnderTest.deleteReviewById(0L);
 
-        // Verify the results
         verify(mockReviewRepository).deleteById(0L);
         verify(mockRestaurantClient).updateRestaurantAverageScore("restaurantId",
                 new RestaurantUpdateAverageScoreRequest("restaurantId", 0.0));

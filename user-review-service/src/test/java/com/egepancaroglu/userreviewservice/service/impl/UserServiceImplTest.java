@@ -45,11 +45,9 @@ class UserServiceImplTest {
 
     @Test
     void shouldGetAllUsers() {
-        // Setup
         List<UserDTO> expectedResult = List.of(
                 new UserDTO(0L, "userName", "firstName", "lastName", "email", LocalDate.of(2020, 1, 1)));
 
-        // Configure UserRepository.findAll(...).
         User user = new User();
         user.setId(0L);
         user.setUserName("userName");
@@ -59,36 +57,28 @@ class UserServiceImplTest {
         List<User> users = List.of(user);
         when(mockUserRepository.findAll()).thenReturn(users);
 
-        // Configure UserMapper.convertToUserDTO(...).
         UserDTO userDTO = new UserDTO(0L, "userName", "firstName", "lastName", "email", LocalDate.of(2020, 1, 1));
         when(mockUserMapper.convertToUserDTO(any(User.class))).thenReturn(userDTO);
 
-        // Run the test
         List<UserDTO> result = userServiceImplUnderTest.getAllUsers();
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
     void shouldGetAllUsers_UserRepositoryReturnsNoItems() {
-        // Setup
         when(mockUserRepository.findAll()).thenReturn(Collections.emptyList());
 
-        // Run the test
         List<UserDTO> result = userServiceImplUnderTest.getAllUsers();
 
-        // Verify the results
         assertThat(result).isEqualTo(Collections.emptyList());
     }
 
     @Test
     void shouldGetUserById() {
-        // Setup
         UserDTO expectedResult = new UserDTO(0L, "userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1));
 
-        // Configure UserRepository.findById(...).
         User user1 = new User();
         user1.setId(0L);
         user1.setUserName("userName");
@@ -98,45 +88,36 @@ class UserServiceImplTest {
         Optional<User> user = Optional.of(user1);
         when(mockUserRepository.findById(0L)).thenReturn(user);
 
-        // Configure UserMapper.convertToUserDTO(...).
         UserDTO userDTO = new UserDTO(0L, "userName", "firstName", "lastName", "email", LocalDate.of(2020, 1, 1));
         when(mockUserMapper.convertToUserDTO(any(User.class))).thenReturn(userDTO);
 
-        // Run the test
         UserDTO result = userServiceImplUnderTest.getUserById(0L);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
     void shouldGetUserById_UserRepositoryReturnsAbsent() {
-        // Setup
         when(mockUserRepository.findById(0L)).thenReturn(Optional.empty());
 
-        // Run the test
         assertThatThrownBy(() -> userServiceImplUnderTest.getUserById(0L)).isInstanceOf(ItemNotFoundException.class);
     }
-    
+
 
     @Test
     void shouldGetUserEntity_UserRepositoryReturnsAbsent() {
-        // Setup
         when(mockUserRepository.findById(0L)).thenReturn(Optional.empty());
 
-        // Run the test
         assertThatThrownBy(() -> userServiceImplUnderTest.getUserEntity(0L)).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
     void shouldSaveUser() {
-        // Setup
         UserSaveRequest request = new UserSaveRequest("userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1));
         UserResponse expectedResult = new UserResponse("userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1));
 
-        // Configure UserMapper.convertToUser(...).
         User user = new User();
         user.setId(0L);
         user.setUserName("userName");
@@ -146,7 +127,6 @@ class UserServiceImplTest {
         when(mockUserMapper.convertToUser(new UserSaveRequest("userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1)))).thenReturn(user);
 
-        // Configure UserRepository.save(...).
         User user1 = new User();
         user1.setId(0L);
         user1.setUserName("userName");
@@ -155,27 +135,22 @@ class UserServiceImplTest {
         user1.setStatus(Status.ACTIVE);
         when(mockUserRepository.save(any(User.class))).thenReturn(user1);
 
-        // Configure UserMapper.convertToUserResponse(...).
         UserResponse userResponse = new UserResponse("userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1));
         when(mockUserMapper.convertToUserResponse(any(User.class))).thenReturn(userResponse);
 
-        // Run the test
         UserResponse result = userServiceImplUnderTest.saveUser(request);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
     void shouldUpdateUser() {
-        // Setup
         UserUpdateRequest request = new UserUpdateRequest(0L, "userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1));
         UserDTO expectedResult = new UserDTO(0L, "userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1));
 
-        // Configure UserRepository.findById(...).
         User user1 = new User();
         user1.setId(0L);
         user1.setUserName("userName");
@@ -185,14 +160,11 @@ class UserServiceImplTest {
         Optional<User> user = Optional.of(user1);
         when(mockUserRepository.findById(0L)).thenReturn(user);
 
-        // Configure UserMapper.convertToUserDTO(...).
         UserDTO userDTO = new UserDTO(0L, "userName", "firstName", "lastName", "email", LocalDate.of(2020, 1, 1));
         when(mockUserMapper.convertToUserDTO(any(User.class))).thenReturn(userDTO);
 
-        // Run the test
         UserDTO result = userServiceImplUnderTest.updateUser(request);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
         verify(mockUserMapper).updateUserRequestToUser(any(User.class),
                 eq(new UserUpdateRequest(0L, "userName", "firstName", "lastName", "email", LocalDate.of(2020, 1, 1))));
@@ -201,23 +173,18 @@ class UserServiceImplTest {
 
     @Test
     void shouldUpdateUser_UserRepositoryFindByIdReturnsAbsent() {
-        // Setup
         UserUpdateRequest request = new UserUpdateRequest(0L, "userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1));
         when(mockUserRepository.findById(0L)).thenReturn(Optional.empty());
 
-        // Run the test
         assertThatThrownBy(() -> userServiceImplUnderTest.updateUser(request))
                 .isInstanceOf(ItemNotFoundException.class);
     }
 
     @Test
     void shouldDeleteUser() {
-        // Setup
-        // Run the test
         userServiceImplUnderTest.deleteUser(0L);
 
-        // Verify the results
         verify(mockUserRepository).deleteById(0L);
     }
 
@@ -230,11 +197,9 @@ class UserServiceImplTest {
 
     @Test
     void shouldActivateUser() {
-        // Setup
         UserDTO expectedResult = new UserDTO(0L, "userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1));
 
-        // Configure UserRepository.findById(...).
         User user1 = new User();
         user1.setId(0L);
         user1.setUserName("userName");
@@ -244,7 +209,6 @@ class UserServiceImplTest {
         Optional<User> user = Optional.of(user1);
         when(mockUserRepository.findById(0L)).thenReturn(user);
 
-        // Configure UserRepository.save(...).
         User user2 = new User();
         user2.setId(0L);
         user2.setUserName("userName");
@@ -253,23 +217,18 @@ class UserServiceImplTest {
         user2.setStatus(Status.ACTIVE);
         when(mockUserRepository.save(any(User.class))).thenReturn(user2);
 
-        // Configure UserMapper.convertToUserDTO(...).
         UserDTO userDTO = new UserDTO(0L, "userName", "firstName", "lastName", "email", LocalDate.of(2020, 1, 1));
         when(mockUserMapper.convertToUserDTO(any(User.class))).thenReturn(userDTO);
 
-        // Run the test
         UserDTO result = userServiceImplUnderTest.activateUser(0L);
 
-        // Verify the results
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
     void shouldActivateUser_UserRepositoryFindByIdReturnsAbsent() {
-        // Setup
         when(mockUserRepository.findById(0L)).thenReturn(Optional.empty());
 
-        // Run the test
         assertThatThrownBy(() -> userServiceImplUnderTest.activateUser(0L)).isInstanceOf(ItemNotFoundException.class);
     }
 }
