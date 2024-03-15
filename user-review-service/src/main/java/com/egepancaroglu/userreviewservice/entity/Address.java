@@ -1,5 +1,6 @@
 package com.egepancaroglu.userreviewservice.entity;
 
+import com.egepancaroglu.userreviewservice.entity.base.BaseEntity;
 import com.egepancaroglu.userreviewservice.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "addresses")
-public class Address {
+public class Address extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

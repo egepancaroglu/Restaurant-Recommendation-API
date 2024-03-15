@@ -20,6 +20,5 @@ public class BaseAdditionalFields {
     private Long creatorId;
     private Long updatedId;
 
-
 }
 
