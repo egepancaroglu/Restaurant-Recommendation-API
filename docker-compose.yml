@@ -6,11 +6,6 @@ services:
     container_name: solr
     ports:
       - "8983:8983"
-    command:
-      - solr-precreate
-      - restaurants
-    volumes:
-      - ./data:/var/solr
     depends_on:
       - zookeeper
 
@@ -39,6 +34,13 @@ services:
     depends_on:
       - zookeeper
 
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -52,6 +54,11 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 4m1n1s3w
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: review-service
 
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
