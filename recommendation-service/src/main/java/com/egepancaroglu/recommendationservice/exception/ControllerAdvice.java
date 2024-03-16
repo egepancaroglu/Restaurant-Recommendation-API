@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class ControllerAdvice {
 
     @ExceptionHandler
-    public final ResponseEntity<Object> handleAllExceptions(Exception e, WebRequest request) {
+    public final ResponseEntity<Object> handleAllExceptions() {
 
         GeneralErrorMessages generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), "Error", "Bir hata oluştu");
 
