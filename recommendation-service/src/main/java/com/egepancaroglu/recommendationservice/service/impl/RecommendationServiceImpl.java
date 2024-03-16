@@ -28,6 +28,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Override
     public List<RestaurantDTO> getRecommendedRestaurantsByUserId(Long userId) {
 
+
         ResponseEntity<RestResponse<List<AddressDTO>>> addressDTOResponse = addressFeignClient.getAddressesByUserId(userId);
 
         RestResponse<List<AddressDTO>> responseBody = addressDTOResponse.getBody();

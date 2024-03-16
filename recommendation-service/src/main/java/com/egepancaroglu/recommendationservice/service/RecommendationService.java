@@ -10,8 +10,6 @@ import java.util.List;
 
 
 public interface RecommendationService {
-
     List<RestaurantDTO> getRecommendedRestaurantsByUserId(Long userId);
-
 
 }

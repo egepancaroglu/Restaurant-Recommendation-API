@@ -8,3 +8,4 @@ public record RestaurantDTO(String id,
                             String location,
                             Double averageScore) {
 }
+

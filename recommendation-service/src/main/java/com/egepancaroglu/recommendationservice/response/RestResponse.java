@@ -24,6 +24,7 @@ public class RestResponse<T> {
         this.responseDate = LocalDateTime.now();
     }
 
+
     public static <T> RestResponse<T> of(T t) {
         return new RestResponse<>(t, true);
     }
