@@ -1,8 +1,10 @@
-package com.egepancaroglu.restaurantservice.client;
+package com.egepancaroglu.recommendationservice.service;
 
-import com.egepancaroglu.restaurantservice.entity.Restaurant;
-import com.egepancaroglu.restaurantservice.exception.SolrClientException;
-import com.egepancaroglu.restaurantservice.general.ErrorMessages;
+import com.egepancaroglu.recommendationservice.dto.RestaurantDTO;
+import com.egepancaroglu.recommendationservice.exception.SolrClientException;
+import com.egepancaroglu.recommendationservice.exception.SolrInternalErrorException;
+import com.egepancaroglu.recommendationservice.general.ErrorMessages;
+import lombok.RequiredArgsConstructor;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -20,14 +22,16 @@ import java.util.Map;
 /**
  * @author egepancaroglu
  */
+
 @Service
+@RequiredArgsConstructor
 @SuppressWarnings("deprecation")
 public class SolrClientService {
 
     @Value("${solr.client.url}")
     private String solrUrl;
 
-    public List<Restaurant> performSolrQuery(String userLocation) {
+    public List<RestaurantDTO> performSolrQuery(String userLocation) {
         try (HttpSolrClient solrClient = new HttpSolrClient.Builder(solrUrl).build()) {
 
             final Map<String, String> queryParamMap = new HashMap<>();
@@ -42,19 +46,24 @@ public class SolrClientService {
             QueryResponse queryResponse = solrClient.query(queryParams);
             SolrDocumentList results = queryResponse.getResults();
 
-            List<Restaurant> restaurantList = new ArrayList<>();
+            List<RestaurantDTO> restaurantDTOList = new ArrayList<>();
             for (SolrDocument solrDocument : results) {
-                Restaurant restaurant = new Restaurant();
-                restaurant.setId(solrDocument.get("id").toString());
-                restaurant.setName(solrDocument.get("name").toString());
-                restaurant.setLocation(solrDocument.get("location").toString());
-                restaurant.setAverageScore((Double) solrDocument.get("averageScore"));
-                restaurantList.add(restaurant);
+                String restaurantId = solrDocument.get("id").toString();
+                String restaurantName = solrDocument.get("name").toString();
+                String restaurantLocation = solrDocument.get("location").toString();
+                Double restaurantAverageScore = (Double) solrDocument.get("averageScore");
+                RestaurantDTO restaurantDTO = new RestaurantDTO(restaurantId, restaurantName, restaurantLocation, restaurantAverageScore);
+                restaurantDTOList.add(restaurantDTO);
             }
 
-            return restaurantList;
+            if (results.isEmpty()) {
+                throw new SolrClientException(ErrorMessages.CANNOT_FETCH_DATA);
+            }
+
+            return restaurantDTOList;
         } catch (SolrServerException | java.io.IOException e) {
-            throw new SolrClientException(ErrorMessages.CANNOT_FETCH_DATA); // or handle the exception as needed
+            throw new SolrInternalErrorException(ErrorMessages.SOLR_SERVER_ERROR);
         }
     }
 }
+

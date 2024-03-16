@@ -16,8 +16,6 @@ public interface RestaurantService {
 
     RestaurantDTO saveRestaurant(RestaurantSaveRequest request);
 
-    List<RestaurantDTO> getRecommendedRestaurantsByUserId(Long userId);
-
     List<RestaurantDTO> getAllRestaurants();
 
     RestaurantDTO updateRestaurantAverageScore(RestaurantUpdateAverageScoreRequest request);

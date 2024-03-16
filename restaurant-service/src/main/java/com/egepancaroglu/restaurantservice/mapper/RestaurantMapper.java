@@ -26,6 +26,12 @@ public interface RestaurantMapper {
 
     List<RestaurantDTO> convertRestaurantsToRestaurantDTOs(List<Restaurant> restaurantsList);
 
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "location", source = "location")
+    @Mapping(target = "averageScore", source = "averageScore")
+    RestaurantDTO convertSolrDocumentRestaurantToRestaurantDTO(String id, String name, String location, Double averageScore);
+
     void updateRestaurantRequestToRestaurant(@MappingTarget Restaurant restaurant, RestaurantUpdateRequest request);
 
 

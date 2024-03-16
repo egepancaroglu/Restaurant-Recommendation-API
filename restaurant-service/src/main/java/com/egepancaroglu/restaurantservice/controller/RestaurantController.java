@@ -35,11 +35,6 @@ public class RestaurantController {
         return ResponseEntity.ok(RestResponse.of(restaurantService.getAllRestaurants()));
     }
 
-    @GetMapping("/recommendRestaurants/{userId}")
-    public ResponseEntity<RestResponse<List<RestaurantDTO>>> getRecommendedRestaurantsByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(RestResponse.of(restaurantService.getRecommendedRestaurantsByUserId(userId)));
-    }
-
     @PostMapping
     public ResponseEntity<RestResponse<RestaurantDTO>> createRestaurant(@Valid @RequestBody RestaurantSaveRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)

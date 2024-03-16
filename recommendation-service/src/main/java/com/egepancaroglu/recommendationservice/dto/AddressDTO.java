@@ -1,4 +1,4 @@
-package com.egepancaroglu.restaurantservice.dto;
+package com.egepancaroglu.recommendationservice.dto;
 
 /**
  * @author egepancaroglu
