@@ -26,9 +26,9 @@ import static com.egepancaroglu.restaurantservice.general.ErrorMessages.METHOD_A
 public class ControllerAdvice {
 
     @ExceptionHandler
-    public final ResponseEntity<Object> handleAllExceptions(Exception e, WebRequest request) {
+    public final ResponseEntity<Object> handleAllExceptions() {
 
-        GeneralErrorMessages generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), "Error", "Bir hata oluştu");
+        GeneralErrorMessages generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), "Error", "An Error Occured !");
 
         RestResponse<GeneralErrorMessages> restResponse = RestResponse.error(generalErrorMessages);
 
