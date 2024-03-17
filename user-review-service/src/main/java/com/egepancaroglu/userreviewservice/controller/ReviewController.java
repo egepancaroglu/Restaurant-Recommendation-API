@@ -49,11 +49,9 @@ public class ReviewController {
 
 
     @PutMapping
-    @ResponseStatus(value = HttpStatus.OK)
-    public ReviewResponse updateReview(@Valid @RequestBody ReviewUpdateRequest request) {
-        return reviewService.updateReview(request);
+    public ResponseEntity<RestResponse<ReviewResponse>> updateReview(@Valid @RequestBody ReviewUpdateRequest request) {
+        return ResponseEntity.ok(RestResponse.of(reviewService.updateReview(request)));
     }
-
 
     @DeleteMapping("{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)

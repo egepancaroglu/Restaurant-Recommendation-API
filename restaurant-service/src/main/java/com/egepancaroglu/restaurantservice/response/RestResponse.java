@@ -1,6 +1,7 @@
 package com.egepancaroglu.restaurantservice.response;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class RestResponse<T> {
 
     private T data;
@@ -24,15 +26,15 @@ public class RestResponse<T> {
         this.responseDate = LocalDateTime.now();
     }
 
-    public static <T> RestResponse<T> of(T t){
+    public static <T> RestResponse<T> of(T t) {
         return new RestResponse<>(t, true);
     }
 
-    public static <T> RestResponse<T> error(T t){
+    public static <T> RestResponse<T> error(T t) {
         return new RestResponse<>(t, false);
     }
 
-    public static <T> RestResponse<T> empty(){
+    public static <T> RestResponse<T> empty() {
         return new RestResponse<>(null, true);
     }
 }

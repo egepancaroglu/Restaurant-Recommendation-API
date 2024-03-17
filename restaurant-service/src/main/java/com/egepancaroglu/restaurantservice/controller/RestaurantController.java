@@ -42,8 +42,8 @@ public class RestaurantController {
     }
 
     @PutMapping
-    public ResponseEntity<RestaurantDTO> updateRestaurant(@Valid @RequestBody RestaurantUpdateRequest request) {
-        return ResponseEntity.ok(restaurantService.updateRestaurant(request));
+    public ResponseEntity<RestResponse<RestaurantDTO>> updateRestaurant(@Valid @RequestBody RestaurantUpdateRequest request) {
+        return ResponseEntity.ok(RestResponse.of(restaurantService.updateRestaurant(request)));
     }
 
     @PutMapping("/{debugId}/averageScore")

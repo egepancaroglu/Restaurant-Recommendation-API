@@ -47,8 +47,8 @@ public class AddressController {
     }
 
     @PutMapping
-    public ResponseEntity<AddressResponse> updateAddress(@Valid @RequestBody AddressUpdateRequest request) {
-        return ResponseEntity.ok(addressService.updateAddress(request));
+    public ResponseEntity<RestResponse<AddressResponse>> updateAddress(@Valid @RequestBody AddressUpdateRequest request) {
+        return ResponseEntity.ok(RestResponse.of(addressService.updateAddress(request)));
     }
 
 

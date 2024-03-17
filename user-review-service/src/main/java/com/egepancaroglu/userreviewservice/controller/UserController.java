@@ -44,11 +44,11 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserUpdateRequest request) {
-        return ResponseEntity.ok(userService.updateUser(request));
+    public ResponseEntity<RestResponse<UserDTO>> updateUser(@Valid @RequestBody UserUpdateRequest request) {
+        return ResponseEntity.ok(RestResponse.of(userService.updateUser(request)));
     }
 
-    @PatchMapping("/{id}/activate")
+    @PatchMapping("/activate/{id}")
     public ResponseEntity<RestResponse<UserDTO>> activateUser(@PathVariable Long id) {
         return ResponseEntity.ok(RestResponse.of(userService.activateUser(id)));
     }
