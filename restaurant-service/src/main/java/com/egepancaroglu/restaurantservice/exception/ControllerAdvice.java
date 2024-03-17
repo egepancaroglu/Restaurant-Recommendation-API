@@ -25,8 +25,12 @@ import static com.egepancaroglu.restaurantservice.general.ErrorMessages.METHOD_A
 @RestControllerAdvice
 public class ControllerAdvice {
 
+
     @ExceptionHandler
-    public final ResponseEntity<Object> handleAllExceptions() {
+    public final ResponseEntity<Object> handleAllExceptions(Exception e, WebRequest request) {
+
+        String message = e.getMessage();
+        String description = request.getDescription(false);
 
         GeneralErrorMessages generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), "Error", "An Error Occured !");
 
@@ -41,9 +45,9 @@ public class ControllerAdvice {
         String message = e.getBaseErrorMessage().getMessage();
         String description = request.getDescription(false);
 
-        var generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), message, description);
+        GeneralErrorMessages generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), message, description);
 
-        var restResponse = RestResponse.error(generalErrorMessages);
+        RestResponse<GeneralErrorMessages> restResponse = RestResponse.error(generalErrorMessages);
 
         return new ResponseEntity<>(restResponse, HttpStatus.NOT_FOUND);
     }

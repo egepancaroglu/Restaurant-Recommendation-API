@@ -31,7 +31,6 @@ public class SolrClientService {
     @Value("${solr.client.url}")
     private String solrUrl;
 
-
     public List<RestaurantDTO> performSolrQuery(String userLocation) {
         try (HttpSolrClient solrClient = new HttpSolrClient.Builder(solrUrl).build()) {
 
