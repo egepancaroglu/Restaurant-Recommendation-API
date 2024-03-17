@@ -1,7 +1,6 @@
 package com.egepancaroglu.userreviewservice.service.impl;
 
 import com.egepancaroglu.userreviewservice.dto.UserDTO;
-import com.egepancaroglu.userreviewservice.dto.response.UserResponse;
 import com.egepancaroglu.userreviewservice.entity.User;
 import com.egepancaroglu.userreviewservice.entity.enums.Status;
 import com.egepancaroglu.userreviewservice.exception.ItemNotFoundException;
@@ -103,7 +102,6 @@ class UserServiceImplTest {
         assertThatThrownBy(() -> userServiceImplUnderTest.getUserById(0L)).isInstanceOf(ItemNotFoundException.class);
     }
 
-
     @Test
     void shouldGetUserEntity_UserRepositoryReturnsAbsent() {
         when(mockUserRepository.findById(0L)).thenReturn(Optional.empty());
@@ -115,7 +113,7 @@ class UserServiceImplTest {
     void shouldSaveUser() {
         UserSaveRequest request = new UserSaveRequest("userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1));
-        UserResponse expectedResult = new UserResponse("userName", "firstName", "lastName", "email",
+        UserDTO expectedResult = new UserDTO(0L, "userName", "firstName", "lastName", "email",
                 LocalDate.of(2020, 1, 1));
 
         User user = new User();
@@ -135,11 +133,10 @@ class UserServiceImplTest {
         user1.setStatus(Status.ACTIVE);
         when(mockUserRepository.save(any(User.class))).thenReturn(user1);
 
-        UserResponse userResponse = new UserResponse("userName", "firstName", "lastName", "email",
-                LocalDate.of(2020, 1, 1));
-        when(mockUserMapper.convertToUserResponse(any(User.class))).thenReturn(userResponse);
+        UserDTO userDTO = new UserDTO(0L, "userName", "firstName", "lastName", "email", LocalDate.of(2020, 1, 1));
+        when(mockUserMapper.convertToUserDTO(any(User.class))).thenReturn(userDTO);
 
-        UserResponse result = userServiceImplUnderTest.saveUser(request);
+        UserDTO result = userServiceImplUnderTest.saveUser(request);
 
         assertThat(result).isEqualTo(expectedResult);
     }

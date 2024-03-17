@@ -16,7 +16,7 @@ public record ReviewSaveRequest(
         @Max(value = 5, message = "Rate must be max 5")
         byte rate,
         @NotNull(message = "Id can't be null or blank !")
-        Long userId,
+        String restaurantId,
         @NotNull(message = "Id can't be null or blank !")
-        String restaurantId) {
+        Long userId) {
 }

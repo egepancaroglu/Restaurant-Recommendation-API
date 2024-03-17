@@ -5,7 +5,6 @@ import jakarta.validation.constraints.*;
 /**
  * @author egepancaroglu
  */
-
 public record ReviewUpdateRequest(
         @NotNull(message = "Id can't be null or blank !")
         @Min(value = 0, message = "Id must be greater than or equal to 0")
@@ -17,3 +16,4 @@ public record ReviewUpdateRequest(
         @Max(value = 5, message = "Rate must be max 5")
         byte rate) {
 }
+

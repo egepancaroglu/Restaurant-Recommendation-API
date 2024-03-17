@@ -50,7 +50,7 @@ class ReviewControllerTest extends BaseControllerTest {
 
     @Test
     void shouldGetReviewById() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/reviews/5")).andExpect(status().isOk()).andReturn();
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/reviews/12")).andExpect(status().isOk()).andReturn();
 
         boolean success = isSuccess(mvcResult);
         assertTrue(success);
@@ -62,7 +62,7 @@ class ReviewControllerTest extends BaseControllerTest {
         String requestAsString = """
                 {
                   "comment": "testComment",
-                  "rate": 1,
+                  "rate": 5,
                   "userId": 2,
                   "restaurantId": "1d7794a9-f7f9-4ef0-b3d8-256baf3645ea"
                 }""";
@@ -76,7 +76,7 @@ class ReviewControllerTest extends BaseControllerTest {
     @Test
     void shouldCreateReview2() throws Exception {
 
-        ReviewSaveRequest request = new ReviewSaveRequest("testComment22", (byte) 1, 2L, "1d7794a9-f7f9-4ef0-b3d8-256baf3645ea");
+        ReviewSaveRequest request = new ReviewSaveRequest("testComment22", (byte) 1, "1d7794a9-f7f9-4ef0-b3d8-256baf3645ea", 2L);
 
         String requestAsString = objectMapper.writeValueAsString(request);
 
@@ -90,7 +90,7 @@ class ReviewControllerTest extends BaseControllerTest {
     @Test
     void shouldUpdateReview() throws Exception {
 
-        ReviewUpdateRequest request = new ReviewUpdateRequest(2L, "updatedComment", (byte) 3);
+        ReviewUpdateRequest request = new ReviewUpdateRequest(3L, "Harika", (byte) 5);
 
         String requestAsString = objectMapper.writeValueAsString(request);
 

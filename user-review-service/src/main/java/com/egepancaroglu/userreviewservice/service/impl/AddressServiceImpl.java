@@ -1,7 +1,6 @@
 package com.egepancaroglu.userreviewservice.service.impl;
 
 import com.egepancaroglu.userreviewservice.dto.AddressDTO;
-import com.egepancaroglu.userreviewservice.dto.response.AddressResponse;
 import com.egepancaroglu.userreviewservice.entity.Address;
 import com.egepancaroglu.userreviewservice.entity.User;
 import com.egepancaroglu.userreviewservice.exception.ItemNotFoundException;
@@ -69,7 +68,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressResponse saveAddress(AddressSaveRequest request) {
+    public AddressDTO saveAddress(AddressSaveRequest request) {
 
         Address address = addressMapper.convertToAddress(request);
 
@@ -77,19 +76,19 @@ public class AddressServiceImpl implements AddressService {
 
         address = addressRepository.save(address);
 
-        return addressMapper.convertToAddressResponse(address);
+        return addressMapper.convertToAddressDTO(address);
 
     }
 
     @Override
-    public AddressResponse updateAddress(AddressUpdateRequest request) {
+    public AddressDTO updateAddress(AddressUpdateRequest request) {
 
         Address address = addressRepository.findById(request.id()).orElseThrow();
         addressMapper.updateAddressRequestToUser(address, request);
 
         addressRepository.save(address);
 
-        return addressMapper.convertToAddressResponse(address);
+        return addressMapper.convertToAddressDTO(address);
     }
 
     @Override

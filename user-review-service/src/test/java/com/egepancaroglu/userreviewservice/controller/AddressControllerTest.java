@@ -51,7 +51,7 @@ class AddressControllerTest extends BaseControllerTest {
 
     @Test
     void shouldGetAddressesById() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/addresses/8")).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/addresses/14")).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 
         boolean success = isSuccess(mvcResult);
         assertTrue(success);
@@ -59,7 +59,7 @@ class AddressControllerTest extends BaseControllerTest {
 
     @Test
     void shouldGetAddressesByUserId() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/addresses/with-userId/7")).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/addresses/with-userId/2")).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 
         boolean success = isSuccess(mvcResult);
         assertTrue(success);
@@ -101,7 +101,7 @@ class AddressControllerTest extends BaseControllerTest {
     @Test
     void shouldUpdateAddress() throws Exception {
 
-        AddressUpdateRequest request = new AddressUpdateRequest(6L, "updatedCity2", "UpdatedState2", "UpdatedDistrict2", "UpdatedStreet2", "45.4334, 24.7643");
+        AddressUpdateRequest request = new AddressUpdateRequest(14L, "Bursa", "Osmangazi", "Dikkaldırım", "2.Havacı", "40.20577690506941, 29.00751008191935");
 
         String requestAsString = objectMapper.writeValueAsString(request);
 

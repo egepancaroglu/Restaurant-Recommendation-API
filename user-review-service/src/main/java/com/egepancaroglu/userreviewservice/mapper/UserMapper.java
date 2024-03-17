@@ -1,7 +1,6 @@
 package com.egepancaroglu.userreviewservice.mapper;
 
 import com.egepancaroglu.userreviewservice.dto.UserDTO;
-import com.egepancaroglu.userreviewservice.dto.response.UserResponse;
 import com.egepancaroglu.userreviewservice.entity.User;
 import com.egepancaroglu.userreviewservice.request.user.UserSaveRequest;
 import com.egepancaroglu.userreviewservice.request.user.UserUpdateRequest;
@@ -17,8 +16,6 @@ import org.mapstruct.ReportingPolicy;
 public interface UserMapper {
 
     User convertToUser(UserSaveRequest request);
-
-    UserResponse convertToUserResponse(User user);
 
     UserDTO convertToUserDTO(User user);
 

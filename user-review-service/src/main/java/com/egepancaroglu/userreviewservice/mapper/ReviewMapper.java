@@ -1,7 +1,6 @@
 package com.egepancaroglu.userreviewservice.mapper;
 
 import com.egepancaroglu.userreviewservice.dto.ReviewDTO;
-import com.egepancaroglu.userreviewservice.dto.response.ReviewResponse;
 import com.egepancaroglu.userreviewservice.entity.Review;
 import com.egepancaroglu.userreviewservice.request.review.ReviewSaveRequest;
 import com.egepancaroglu.userreviewservice.request.review.ReviewUpdateRequest;
@@ -19,8 +18,6 @@ import org.mapstruct.ReportingPolicy;
 public interface ReviewMapper {
 
     Review convertToReview(ReviewSaveRequest request);
-
-    ReviewResponse convertToReviewResponse(Review review);
 
     @Mapping(target = "user.status", constant = "INACTIVE")
     @Mapping(target = "userId", source = "review.user.id")

@@ -75,9 +75,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public RestaurantDTO updateRestaurantAverageScore(RestaurantUpdateAverageScoreRequest request) {
 
-        Restaurant restaurant = restaurantRepository.findById(request.id()).orElseThrow(() -> new ItemNotFoundException(ErrorMessages.RESTAURANT_NOT_FOUND));
+        Restaurant restaurant = restaurantRepository.findById(request.restaurantId()).orElseThrow(() -> new ItemNotFoundException(ErrorMessages.RESTAURANT_NOT_FOUND));
 
-        restaurant.setAverageScore(request.AverageScore());
+        restaurant.setAverageScore(request.averageScore());
 
         restaurantRepository.save(restaurant);
 

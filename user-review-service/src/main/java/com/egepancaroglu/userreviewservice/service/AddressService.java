@@ -1,7 +1,6 @@
 package com.egepancaroglu.userreviewservice.service;
 
 import com.egepancaroglu.userreviewservice.dto.AddressDTO;
-import com.egepancaroglu.userreviewservice.dto.response.AddressResponse;
 import com.egepancaroglu.userreviewservice.request.address.AddressSaveRequest;
 import com.egepancaroglu.userreviewservice.request.address.AddressUpdateRequest;
 
@@ -17,9 +16,9 @@ public interface AddressService {
 
     AddressDTO getAddressById(Long id);
 
-    AddressResponse saveAddress(AddressSaveRequest request);
+    AddressDTO saveAddress(AddressSaveRequest request);
 
-    AddressResponse updateAddress(AddressUpdateRequest request);
+    AddressDTO updateAddress(AddressUpdateRequest request);
 
     void deleteAddressById(Long id);
 

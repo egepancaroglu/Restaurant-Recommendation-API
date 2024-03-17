@@ -2,7 +2,6 @@ package com.egepancaroglu.userreviewservice.service.impl;
 
 import com.egepancaroglu.userreviewservice.client.RestaurantClient;
 import com.egepancaroglu.userreviewservice.dto.ReviewDTO;
-import com.egepancaroglu.userreviewservice.dto.response.ReviewResponse;
 import com.egepancaroglu.userreviewservice.entity.Review;
 import com.egepancaroglu.userreviewservice.exception.ItemNotFoundException;
 import com.egepancaroglu.userreviewservice.general.ErrorMessages;
@@ -69,7 +68,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewResponse saveReview(ReviewSaveRequest request) {
+    public ReviewDTO saveReview(ReviewSaveRequest request) {
 
         Review review = reviewMapper.convertToReview(request);
         review.setUser(userService.getUserEntity(request.userId()));
@@ -77,11 +76,11 @@ public class ReviewServiceImpl implements ReviewService {
 
         updateRestaurantAverageScore(request.restaurantId());
 
-        return reviewMapper.convertToReviewResponse(review);
+        return reviewMapper.convertToReviewDTO(review);
     }
 
     @Override
-    public ReviewResponse updateReview(ReviewUpdateRequest request) {
+    public ReviewDTO updateReview(ReviewUpdateRequest request) {
         Review review = reviewRepository.findById(request.id())
                 .orElseThrow(() -> new ItemNotFoundException(ErrorMessages.REVIEW_NOT_FOUND));
 
@@ -91,7 +90,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         updateRestaurantAverageScore(review.getRestaurantId());
 
-        return reviewMapper.convertToReviewResponse(review);
+        return reviewMapper.convertToReviewDTO(review);
     }
 
 
@@ -126,8 +125,8 @@ public class ReviewServiceImpl implements ReviewService {
             averageScore = 0;
         }
 
-        restaurantClient.updateRestaurantAverageScore(restaurantId,
-                new RestaurantUpdateAverageScoreRequest(restaurantId, averageScore));
+        restaurantClient.updateRestaurantAverageScore(restaurantId, new RestaurantUpdateAverageScoreRequest(restaurantId, averageScore));
+
     }
 
 

@@ -1,7 +1,6 @@
 package com.egepancaroglu.userreviewservice.controller;
 
 import com.egepancaroglu.userreviewservice.dto.UserDTO;
-import com.egepancaroglu.userreviewservice.dto.response.UserResponse;
 import com.egepancaroglu.userreviewservice.request.user.UserSaveRequest;
 import com.egepancaroglu.userreviewservice.request.user.UserUpdateRequest;
 import com.egepancaroglu.userreviewservice.response.RestResponse;
@@ -38,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<UserResponse>> createUser(@Valid @RequestBody UserSaveRequest request) {
+    public ResponseEntity<RestResponse<UserDTO>> createUser(@Valid @RequestBody UserSaveRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(RestResponse.of(userService.saveUser(request)));
     }

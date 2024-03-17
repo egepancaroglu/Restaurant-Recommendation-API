@@ -27,19 +27,6 @@ public class ControllerAdvice {
 
 
     @ExceptionHandler
-    public final ResponseEntity<Object> handleAllExceptions(Exception e, WebRequest request) {
-
-        String message = e.getMessage();
-        String description = request.getDescription(false);
-
-        GeneralErrorMessages generalErrorMessages = new GeneralErrorMessages(LocalDateTime.now(), "Error", "An Error Occured !");
-
-        RestResponse<GeneralErrorMessages> restResponse = RestResponse.error(generalErrorMessages);
-
-        return new ResponseEntity<>(restResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler
     public final ResponseEntity<Object> handleNotFoundExceptions(ItemNotFoundException e, WebRequest request) {
 
         String message = e.getBaseErrorMessage().getMessage();

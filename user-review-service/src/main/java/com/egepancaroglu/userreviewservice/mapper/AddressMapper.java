@@ -1,7 +1,6 @@
 package com.egepancaroglu.userreviewservice.mapper;
 
 import com.egepancaroglu.userreviewservice.dto.AddressDTO;
-import com.egepancaroglu.userreviewservice.dto.response.AddressResponse;
 import com.egepancaroglu.userreviewservice.entity.Address;
 import com.egepancaroglu.userreviewservice.request.address.AddressSaveRequest;
 import com.egepancaroglu.userreviewservice.request.address.AddressUpdateRequest;
@@ -18,8 +17,6 @@ import org.mapstruct.ReportingPolicy;
 public interface AddressMapper {
 
     Address convertToAddress(AddressSaveRequest request);
-
-    AddressResponse convertToAddressResponse(Address address);
 
     @Mapping(target = "address.status", constant = "INACTIVE")
     @Mapping(target = "userId", source = "address.user.id")

@@ -46,8 +46,8 @@ public class RestaurantController {
         return ResponseEntity.ok(RestResponse.of(restaurantService.updateRestaurant(request)));
     }
 
-    @PutMapping("/{debugId}/averageScore")
-    public ResponseEntity<RestResponse<RestaurantDTO>> updateRestaurantAverageScore(@PathVariable String debugId, @RequestBody RestaurantUpdateAverageScoreRequest request) {
+    @PutMapping("/{id}/averageScore")
+    public ResponseEntity<RestResponse<RestaurantDTO>> updateRestaurantAverageScore(@PathVariable String id, @RequestBody RestaurantUpdateAverageScoreRequest request) {
         return ResponseEntity.ok(RestResponse.of(restaurantService.updateRestaurantAverageScore(request)));
     }
 

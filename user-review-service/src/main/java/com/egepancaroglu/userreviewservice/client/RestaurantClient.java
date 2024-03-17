@@ -1,6 +1,6 @@
 package com.egepancaroglu.userreviewservice.client;
 
-import com.egepancaroglu.userreviewservice.dto.response.ReviewResponse;
+import com.egepancaroglu.userreviewservice.dto.ReviewResponse;
 import com.egepancaroglu.userreviewservice.request.restaurant.RestaurantUpdateAverageScoreRequest;
 import com.egepancaroglu.userreviewservice.response.RestResponse;
 import org.springframework.cloud.openfeign.FeignClient;

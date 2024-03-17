@@ -1,7 +1,6 @@
 package com.egepancaroglu.userreviewservice.service;
 
 import com.egepancaroglu.userreviewservice.dto.UserDTO;
-import com.egepancaroglu.userreviewservice.dto.response.UserResponse;
 import com.egepancaroglu.userreviewservice.entity.User;
 import com.egepancaroglu.userreviewservice.request.user.UserSaveRequest;
 import com.egepancaroglu.userreviewservice.request.user.UserUpdateRequest;
@@ -21,7 +20,7 @@ public interface UserService {
 
     User getUserEntity(Long id);
 
-    UserResponse saveUser(UserSaveRequest request);
+    UserDTO saveUser(UserSaveRequest request);
 
     UserDTO updateUser(UserUpdateRequest request);
 

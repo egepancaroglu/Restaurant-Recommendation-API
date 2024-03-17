@@ -1,7 +1,6 @@
 package com.egepancaroglu.userreviewservice.service.impl;
 
 import com.egepancaroglu.userreviewservice.dto.AddressDTO;
-import com.egepancaroglu.userreviewservice.dto.response.AddressResponse;
 import com.egepancaroglu.userreviewservice.entity.Address;
 import com.egepancaroglu.userreviewservice.entity.User;
 import com.egepancaroglu.userreviewservice.exception.ItemNotFoundException;
@@ -45,15 +44,12 @@ class AddressServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        addressServiceImplUnderTest = new AddressServiceImpl(mockAddressRepository, mockUserRepository,
-                mockAddressMapper, mockUserService);
+        addressServiceImplUnderTest = new AddressServiceImpl(mockAddressRepository, mockUserRepository, mockAddressMapper, mockUserService);
     }
 
     @Test
     void shouldGetAllAddresses() {
-        // Setup
-        List<AddressDTO> expectedResult = List.of(
-                new AddressDTO(0L, "city", "state", "district", "street", "location", 0L));
+        List<AddressDTO> expectedResult = List.of(new AddressDTO(0L, "city", "state", "district", "street", "location", 0L));
 
         Address address = new Address();
         address.setId(0L);
@@ -108,14 +104,12 @@ class AddressServiceImplTest {
     void shouldGetAddressById_AddressRepositoryReturnsAbsent() {
         when(mockAddressRepository.findById(0L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> addressServiceImplUnderTest.getAddressById(0L))
-                .isInstanceOf(ItemNotFoundException.class);
+        assertThatThrownBy(() -> addressServiceImplUnderTest.getAddressById(0L)).isInstanceOf(ItemNotFoundException.class);
     }
 
     @Test
     void shouldGetAddressesByUserId() {
-        List<AddressDTO> expectedResult = List.of(
-                new AddressDTO(0L, "city", "state", "district", "street", "location", 0L));
+        List<AddressDTO> expectedResult = List.of(new AddressDTO(0L, "city", "state", "district", "street", "location", 0L));
 
         User user1 = new User();
         user1.setId(0L);
@@ -148,13 +142,11 @@ class AddressServiceImplTest {
     void shouldGetAddressesByUserId_UserRepositoryReturnsAbsent() {
         when(mockUserRepository.findById(0L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> addressServiceImplUnderTest.getAddressesByUserId(0L))
-                .isInstanceOf(ItemNotFoundException.class);
+        assertThatThrownBy(() -> addressServiceImplUnderTest.getAddressesByUserId(0L)).isInstanceOf(ItemNotFoundException.class);
     }
 
     @Test
     void shouldGetAddressesByUserId_AddressRepositoryReturnsNoItems() {
-
         User user1 = new User();
         user1.setId(0L);
         user1.setUserName("userName");
@@ -173,9 +165,8 @@ class AddressServiceImplTest {
 
     @Test
     void shouldSaveAddress() {
-        AddressSaveRequest request = new AddressSaveRequest("city", "state", "district", "street", "location",
-                0L);
-        AddressResponse expectedResult = new AddressResponse("city", "state", "district", "street");
+        AddressSaveRequest request = new AddressSaveRequest("city", "state", "district", "street", "location", 0L);
+        AddressDTO expectedResult = new AddressDTO(0L, "city", "state", "district", "street", "location", 0L);
 
         Address address = new Address();
         address.setId(0L);
@@ -184,8 +175,7 @@ class AddressServiceImplTest {
         address.setDistrict("district");
         User user = new User();
         address.setUser(user);
-        when(mockAddressMapper.convertToAddress(
-                new AddressSaveRequest("city", "state", "district", "street", "location", 0L))).thenReturn(address);
+        when(mockAddressMapper.convertToAddress(new AddressSaveRequest("city", "state", "district", "street", "location", 0L))).thenReturn(address);
 
         User user1 = new User();
         user1.setId(0L);
@@ -204,19 +194,18 @@ class AddressServiceImplTest {
         address1.setUser(user2);
         when(mockAddressRepository.save(any(Address.class))).thenReturn(address1);
 
-        AddressResponse addressResponse = new AddressResponse("city", "state", "district", "street");
-        when(mockAddressMapper.convertToAddressResponse(any(Address.class))).thenReturn(addressResponse);
+        AddressDTO addressDTO = new AddressDTO(0L, "city", "state", "district", "street", "location", 0L);
+        when(mockAddressMapper.convertToAddressDTO(any(Address.class))).thenReturn(addressDTO);
 
-        AddressResponse result = addressServiceImplUnderTest.saveAddress(request);
+        AddressDTO result = addressServiceImplUnderTest.saveAddress(request);
 
         assertThat(result).isEqualTo(expectedResult);
     }
 
     @Test
     void shouldUpdateAddress() {
-        AddressUpdateRequest request = new AddressUpdateRequest(0L, "city", "state", "district", "street",
-                "location");
-        AddressResponse expectedResult = new AddressResponse("city", "state", "district", "street");
+        AddressUpdateRequest request = new AddressUpdateRequest(0L, "city", "state", "district", "street", "location");
+        AddressDTO expectedResult = new AddressDTO(0L, "city", "state", "district", "street", "location", 0L);
 
         Address address1 = new Address();
         address1.setId(0L);
@@ -228,25 +217,22 @@ class AddressServiceImplTest {
         Optional<Address> address = Optional.of(address1);
         when(mockAddressRepository.findById(0L)).thenReturn(address);
 
-        AddressResponse addressResponse = new AddressResponse("city", "state", "district", "street");
-        when(mockAddressMapper.convertToAddressResponse(any(Address.class))).thenReturn(addressResponse);
+        AddressDTO addressDTO = new AddressDTO(0L, "city", "state", "district", "street", "location", 0L);
+        when(mockAddressMapper.convertToAddressDTO(any(Address.class))).thenReturn(addressDTO);
 
-        AddressResponse result = addressServiceImplUnderTest.updateAddress(request);
+        AddressDTO result = addressServiceImplUnderTest.updateAddress(request);
 
         assertThat(result).isEqualTo(expectedResult);
-        verify(mockAddressMapper).updateAddressRequestToUser(any(Address.class),
-                eq(new AddressUpdateRequest(0L, "city", "state", "district", "street", "location")));
+        verify(mockAddressMapper).updateAddressRequestToUser(any(Address.class), eq(new AddressUpdateRequest(0L, "city", "state", "district", "street", "location")));
         verify(mockAddressRepository).save(any(Address.class));
     }
 
     @Test
     void shouldUpdateAddress_AddressRepositoryFindByIdReturnsAbsent() {
-        AddressUpdateRequest request = new AddressUpdateRequest(0L, "city", "state", "district", "street",
-                "location");
+        AddressUpdateRequest request = new AddressUpdateRequest(0L, "city", "state", "district", "street", "location");
         when(mockAddressRepository.findById(0L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> addressServiceImplUnderTest.updateAddress(request))
-                .isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() -> addressServiceImplUnderTest.updateAddress(request)).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test

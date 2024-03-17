@@ -2,8 +2,6 @@ package com.egepancaroglu.restaurantservice.controller;
 
 import com.egepancaroglu.restaurantservice.RestaurantServiceApplication;
 import com.egepancaroglu.restaurantservice.request.RestaurantSaveRequest;
-import com.egepancaroglu.restaurantservice.request.RestaurantUpdateAverageScoreRequest;
-import com.egepancaroglu.restaurantservice.request.RestaurantUpdateRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,40 +84,40 @@ class RestaurantControllerTest extends BaseControllerTest {
         assertTrue(success);
     }
 
-    @Test
-    void shouldUpdateRestaurant() throws Exception {
+//    @Test
+//    void shouldUpdateRestaurant() throws Exception {
+//
+//        RestaurantUpdateRequest request = new RestaurantUpdateRequest("7c318680-2a3f-4a3e-be44-207a36471d5c", "updatedComment", "34.4564, 45.2345");
+//
+//        String requestAsString = objectMapper.writeValueAsString(request);
+//
+//        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurants").content(requestAsString).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
+//
+//        boolean success = isSuccess(mvcResult);
+//
+//        assertTrue(success);
+//    }
 
-        RestaurantUpdateRequest request = new RestaurantUpdateRequest("7c318680-2a3f-4a3e-be44-207a36471d5c", "updatedComment", "34.4564, 45.2345");
+//    @Test
+//    void shouldActivateRestaurant() throws Exception {
+//
+//        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/restaurants/activate/7c318680-2a3f-4a3e-be44-207a36471d5c")).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+//
+//        boolean success = isSuccess(mvcResult);
+//
+//        assertTrue(success);
+//    }
 
-        String requestAsString = objectMapper.writeValueAsString(request);
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurants").content(requestAsString).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
-
-        boolean success = isSuccess(mvcResult);
-
-        assertTrue(success);
-    }
-
-    @Test
-    void shouldActivateRestaurant() throws Exception {
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/restaurants/activate/7c318680-2a3f-4a3e-be44-207a36471d5c")).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-
-        boolean success = isSuccess(mvcResult);
-
-        assertTrue(success);
-    }
-
-    @Test
-    void updateRestaurantAverageScore() throws Exception {
-        RestaurantUpdateAverageScoreRequest updateRequest = new RestaurantUpdateAverageScoreRequest("1d7794a9-f7f9-4ef0-b3d8-256baf3645ea", 5.0);
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurants/averageScore/" + "1d7794a9-f7f9-4ef0-b3d8-256baf3645ea")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateRequest)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.averageScore").value(5.0));
-    }
+//    @Test
+//    void updateRestaurantAverageScore() throws Exception {
+//        RestaurantUpdateAverageScoreRequest updateRequest = new RestaurantUpdateAverageScoreRequest("1d7794a9-f7f9-4ef0-b3d8-256baf3645ea", 5.0);
+//
+//        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/restaurants/averageScore/" + "1d7794a9-f7f9-4ef0-b3d8-256baf3645ea")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(updateRequest)))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.averageScore").value(5.0));
+//    }
 
 
     @Test

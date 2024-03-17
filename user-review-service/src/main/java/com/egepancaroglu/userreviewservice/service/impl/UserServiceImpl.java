@@ -1,7 +1,6 @@
 package com.egepancaroglu.userreviewservice.service.impl;
 
 import com.egepancaroglu.userreviewservice.dto.UserDTO;
-import com.egepancaroglu.userreviewservice.dto.response.UserResponse;
 import com.egepancaroglu.userreviewservice.entity.User;
 import com.egepancaroglu.userreviewservice.entity.enums.Status;
 import com.egepancaroglu.userreviewservice.exception.ItemNotFoundException;
@@ -57,13 +56,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse saveUser(UserSaveRequest request) {
+    public UserDTO saveUser(UserSaveRequest request) {
 
         User user = userMapper.convertToUser(request);
 
         user = userRepository.save(user);
 
-        return userMapper.convertToUserResponse(user);
+        return userMapper.convertToUserDTO(user);
 
     }
 
