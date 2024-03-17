@@ -1,12 +1,33 @@
 package com.egepancaroglu.userreviewservice.general;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 /**
  * @author egepancaroglu
  */
 
-public record GeneralErrorMessages(LocalDateTime date,
-                                   String message,
-                                   String description) {
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class GeneralErrorMessages {
+
+    private LocalDateTime date;
+    private String message;
+    private String description;
+
+    @Override
+    public String toString() {
+        return "GeneralErrorMessages{" +
+                "date=" + date +
+                ", message='" + message + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
