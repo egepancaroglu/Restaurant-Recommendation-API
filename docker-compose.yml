@@ -6,6 +6,11 @@ services:
     container_name: solr
     ports:
       - "8983:8983"
+    volumes:
+      - ./data:/var/solr
+    command:
+      - solr-precreate
+      - restaurants   
 
   rabbitmq:
     image: rabbitmq:3.10.5-management
