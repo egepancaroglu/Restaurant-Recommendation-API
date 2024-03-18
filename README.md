@@ -20,7 +20,7 @@ For building and running the application: you need:
 
 There are several ways to run a Spring Boot application on your local machine. You can use anyone.
 
-- 'docker-compose up --build' (Recommended, Docker required)
+- If you dont have RabbitMQ, Solr, PostgreSQL, MongoDB or zipkin on your locally. You must build the docker-compose.yml for creating containers. 'docker-compose up --build' (Recommended, Docker required).
 
 - You can execute the main methods sequencly by main methods classes from your IDE.
   - 1. You must start service-registry for all services registering him.
