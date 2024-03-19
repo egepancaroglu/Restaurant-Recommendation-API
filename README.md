@@ -2,6 +2,11 @@
 
 restaurant-service, user-review-service and recommendation service are Spring Boot application that focused on user, restaurant operations and user based restaurant recommendation. <br/>
 
+## Architecture
+
+![architecture](https://github.com/egepancaroglu/N11-Bootcamp-Final-Case/assets/76057764/cd7918e9-7530-42a6-af7b-0153956a51e0)
+
+
 ## Descriptions
 
 - to determine user or restaurant fields via frontend or swagger.
