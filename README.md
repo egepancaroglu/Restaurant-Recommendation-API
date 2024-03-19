@@ -4,8 +4,7 @@ restaurant-service, user-review-service and recommendation service are Spring Bo
 
 ## Architecture
 
-![architecture](https://github.com/egepancaroglu/N11-Bootcamp-Final-Case/assets/76057764/cd7918e9-7530-42a6-af7b-0153956a51e0)
-
+![architecture](https://github.com/egepancaroglu/N11-Bootcamp-Final-Case/assets/76057764/693518b4-07b9-46dc-a8c2-8ce3d6b53892)
 
 ## Descriptions
 
