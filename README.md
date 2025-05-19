@@ -1,4 +1,4 @@
-# N11 TalentHub Bootcamp Final Project 
+# Restaurant Recommendation API
 
 restaurant-service, user-review-service and recommendation service are Spring Boot application that focused on user, restaurant operations and user based restaurant recommendation. <br/>
 
